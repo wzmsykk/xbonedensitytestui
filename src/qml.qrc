@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>InitBox.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>initq.qml</file>
+        <file>Preference.qml</file>
+        <file>FrontPage.qml</file>
+        <file>PersonalInfo.qml</file>
+        <file>Card1.qml</file>
+    </qresource>
+</RCC>
