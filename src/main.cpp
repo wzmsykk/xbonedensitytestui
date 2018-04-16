@@ -9,12 +9,13 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     qmlRegisterType<Initc>("com.kp.initc",1,0,"Initc");
+    qmlRegisterType<Settings>("com.kp.settings",1,0,"Settings");
+    Settings mySet;
 
     QGuiApplication app(argc, argv);
-    Settings set;
-    set.getTime();
 
     QQmlApplicationEngine engine;
+     engine.rootContext()->setContextProperty("mySet",&mySet);
     engine.addImportPath(QCoreApplication::applicationDirPath() + QDir::separator() + QLatin1String("..") +
                              QDir::separator() + QLatin1String("fluid") + QDir::separator() + QLatin1String("qml"));
     engine.addImportPath(QCoreApplication::applicationDirPath() + QDir::separator() + QLatin1String("qml"));

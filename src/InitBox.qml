@@ -2,7 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-
+import QtQuick.Controls.Material 2.3
 
 Item {
     id: initBox
@@ -25,6 +25,7 @@ Item {
         height: parent.height
         modal: true
         z: 0
+        Material.elevation:24
 
         ProgressBar {
             id: control

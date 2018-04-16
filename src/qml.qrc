@@ -8,5 +8,8 @@
         <file>FrontPage.qml</file>
         <file>PersonalInfo.qml</file>
         <file>Card1.qml</file>
+        <file>PassDialog.qml</file>
+        <file>PrintSetDialog.qml</file>
+        <file>InfoCom.qml</file>
     </qresource>
 </RCC>

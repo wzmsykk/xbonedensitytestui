@@ -23,6 +23,9 @@ Page {
 
         Card1 {
             id: card1
+            titleText: qsTr("Start")
+            bodyText: qsTr("Start up")
+            onPressed: stackView.push("PersonalInfo.qml")
         }
         Card1 {
             id: card2

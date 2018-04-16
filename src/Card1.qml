@@ -8,11 +8,24 @@ FluidControls.Card {
     width: cardWidth
     height: 0.9 * page.height
     property int elevation: 2
-    property string loadQ: "Preference.qml"
-    property string picSource: "FrontPageNewTest.jpg"
-    property var titleText: qsTr("Start Up")
-    property var bodyText: qsTr("start new test")
+    property string loadQ: ""
+    property string picSource: ""
+    property string activedPicSource: ""
+    property var titleText: qsTr("This is Title")
+    property var bodyText: qsTr("This is body")
+    property var userCostomKey
     signal pressed()
+    focusPolicy: Qt.WheelFocus
+    onActiveFocusChanged: {
+        Material.elevation=2+activeFocus*4
+        picture.source=(activeFocus===0?picSource:activedPicSource)
+    }
+    Keys.onPressed: {
+        if(event.key===Qt.Key_Return|event.key===Qt.Key_Space|event.key===userCostomKey) {card1.pressed()
+            event.accepted=true
+        card1.focus=false}
+    }
+
     Material.elevation:elevation
     MouseArea{
         anchors.fill:parent

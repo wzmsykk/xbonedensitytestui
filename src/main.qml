@@ -2,7 +2,7 @@ import QtQuick 2.7
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
-
+import Fluid.Controls 1.0 as FluidControls
 ApplicationWindow {
     id: root
     visible: true
@@ -10,10 +10,15 @@ ApplicationWindow {
     height: 480
     //color: "#fafafa"
     title: qsTr("Test App")
+    FluidControls.SnackBar {
+        id: snackBar
+   }
+
+
     header: ToolBar {
         id: toolBar
         property var locales: Qt.locale()
-        contentHeight: toolButton.implicitHeight
+        contentHeight: backButton.implicitHeight
         RowLayout {
             anchors.fill: parent
 
@@ -32,10 +37,11 @@ ApplicationWindow {
             }
 
             ToolButton {
-                id: toolButton
-
+                id: backButton
+                visible:  stackView.depth > 1 ? true : false
                 text: stackView.depth > 1 ? "\u25C0" : "\u2630"
                 font.pixelSize: Qt.application.font.pixelSize * 1.6
+                focusPolicy: Qt.NoFocus
                 onClicked: {
                     if (stackView.depth > 1) {
                         stackView.pop()
