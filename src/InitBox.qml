@@ -13,7 +13,6 @@ Item {
     function closePopup(){
         rect1.close()
     }
-
     anchors.fill: parent
 
     Popup {

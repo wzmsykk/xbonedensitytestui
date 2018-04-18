@@ -13,5 +13,6 @@
         <file>InfoCom.qml</file>
         <file>AnimationTest2.qml</file>
         <file>Channel.qml</file>
+        <file>LoadPage.qml</file>
     </qresource>
 </RCC>

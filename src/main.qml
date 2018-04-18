@@ -102,86 +102,11 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "FrontPage.qml"
+        initialItem: "LoadPage.qml"
         anchors.fill: parent
-        focus: true
-        onActiveFocusChanged: {
-            if(stackView.activeFocus===true)
-                stackView.currentItem.forceActiveFocus()
-        }
 
 
     }
 
-    Item {
-        id: wait
-        anchors.fill: parent
-        state: "loading"
-        enabled: true
-        states: [State {
-                name: "idle"
-            }
-            ,State {
-                name: "loading"
-                PropertyChanges {
-                    target: wait
-                    opacity: 1
-                }
-                PropertyChanges {
-                    target: loadingProc
-                    source: "initq.qml"
-                    focus: true
-                }
-            },
-            State {
-                name: "ready"
-                PropertyChanges {
-                    target: loadingProc
-                    focus: false
-                    source:""
-                    Keys.enabled: false
-                }
-                PropertyChanges {
-                    target: lbox
-                    color:"transparent"
-                    focus:false
-                    visible:false
-                    enabled:false
-                }
-                PropertyChanges {
-                    target: wait
-                    opacity: 0
-                }
 
-            }
-        ]
-
-        Rectangle {
-            id: lbox
-            color: "#fafafa"
-            anchors.fill: parent
-            MouseArea{
-                anchors.fill: parent
-            }
-
-            Loader {
-                id: loadingProc
-                x: 0
-                y: 0
-                width: 512
-                height: 168
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-
-                Connections {
-                    target: loadingProc.item
-
-                    onInitAllSucceed: {
-                         wait.state="ready"
-
-                    }
-                }
-            }
-        }
-    }
 }

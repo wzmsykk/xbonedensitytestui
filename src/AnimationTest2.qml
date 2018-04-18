@@ -9,44 +9,5 @@ Page {
     id:page
     property int cardWidth:(page.width-FluidControls.Units.smallSpacing * 8)/3
     title: "Animationtest2"
-    Card1{
-        id: card1
-        width: cardWidth
-        height: 0.9*page.height
-        titleText: qsTr("Start")
-        bodyText: qsTr("Start up")
-    }
-    Loader{
-        source: "InitBox.qml"
-        height: 200
-        width:200
-    }
 
-    Item {
-        id: aa
-        state: "B"
-        states: [
-            State {
-                name: "A"
-                PropertyChanges {
-                    target: aa
-                    visible: false
-                }
-            },
-            State {
-                name: "B"
-                PropertyChanges {
-                    target:aa
-                    visible:true
-                }
-            }
-        ]
-        Button{
-            height: 60
-            width: 60
-            onPressed: {
-                aa.state="A"
-            }
-        }
-    }
 }
