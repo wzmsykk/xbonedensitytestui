@@ -12,6 +12,12 @@ Dialog {
     Material.elevation: 24
 
     standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+    Action{
+        shortcut: "Esc"
+        onTriggered:
+            printSetDialog.reject()
+    }
+
     onOpened: {
         mySet.readSettings()
         list1.clear()

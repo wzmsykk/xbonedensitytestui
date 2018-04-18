@@ -3,94 +3,137 @@ import com.kp.initc 1.0
 
 Item {
     id: initq
+    property alias state: loadingBar.state
     signal initAllSucceed
+
     Initc {
         id: initProc
     }
 
     Loader {
+        //用states改写
         id: loadingBar
+        property bool timeLimitExceeded: false
         property bool scanButtonPressed: false
-        property bool prepareScan: false
-        property bool doingScan: false
-        property int count: 0
-        anchors.fill: parent
-        Keys.enabled: false
         source: "InitBox.qml"
-        focus: true
+        state: "idle"
+
+        states: [
+            State {
+                name: "idle"
+            },
+            State {
+                name: "onSelfTest"
+            },
+            State {
+                name: "selfTestOK"
+            },
+            State {
+                name: "firstScanPrepared"
+            },
+            State {
+                name: "timeNotExceeded"
+            },
+            State {
+                name: "onScan"
+            },
+            State {
+                name: "finished"
+            },
+            State {
+                name: "ERROR"
+            }
+        ]
         onLoaded: {
-            startLabel()
+
             item.openPopup()
-            tim1.restart()
+            loadingBar.state = "onSelfTest"
         }
+
+        onStateChanged: {
+            if (loadingBar.state === "onSelfTest") {
+
+                item.labelText = qsTr(
+                            "System is running a self-test.\nPlease do a X-ray scan after 30s.")
+
+                initProc.operateSelfTest()
+            } else if (loadingBar.state === "selfTestOK") {
+                item.labelText = qsTr(
+                            "Self-test succeed.\nWhen the Light is on, LONG PRESS the exposure button to conduct a base scan.")
+                initProc.prepareFirstScan()
+                 loadingBar.enabled = true
+            } else if (loadingBar.state === "firstScanPrepared") {
+                console.log("Light on.")
+
+            } else if (loadingBar.state === "timeNotExceeded") {
+                item.labelText = qsTr(
+                            "firstscan interrupted, LONG PRESS the button again")
+            } else if (loadingBar.state === "onScan") {
+                item.labelText = qsTr(
+                            "System is setting reference image and\ntesting system function. \nwhen finished the Main menu will show up.")
+                initProc.operateFirstScan()
+            } else if (loadingBar.state === "finished") {
+                item.closePopup()
+                loadingBar.source = ""
+                initAllSucceed()
+            }
+        }
+
+        anchors.fill: parent
+        focus: true
+        enabled: false
+        Keys.enabled: true
         Keys.onPressed: {
             if (event.key === Qt.Key_A) {
-                count++
-                console.log("key_a pressed", count)
                 scanButtonPressed = true
-                if (prepareScan == false &&doingScan==false) {
-
-                    initProc.prepareFirstScan() //dont do much things here
-                    prepareScan = true
+                console.log("A pressed")
+                if (loadingBar.state === "firstScanPrepared"
+                        || loadingBar.state === "timeNotExceeded") {
+                    console.log("timerstarted")
                     tim2.restart()
+                    timeLimitExceeded = false
                 }
             }
             event.accept
         }
         Keys.onReleased: {
+            scanButtonPressed = false
+            console.log("A released")
             if (event.key === Qt.Key_A) {
-                console.log("key_a released")
-                scanButtonPressed = false
-                if (prepareScan === true)
-                    firstscanInterrupted()
+                if ((loadingBar.state === "firstScanPrepared"
+                     || loadingBar.state === "timeNotExceeded")
+                        && timeLimitExceeded === false) {
+                    tim2.stop()
+                    loadingBar.state = "timeNotExceeded"
+                }
             }
             event.accept
         }
-        function startLabel() {
-            item.labelText = qsTr(
-                        "System is running a self-test.\nPlease do a X-ray scan after 30s.")
-        }
-        function nextStep(cd) {
+        function selfTestEnded(cd) {
             if (cd === 1) {
-                item.labelText = qsTr(
-                            "Self-test succeed.\nPress the exposure button to conduct a base scan.")
-                console.log(item.labelText)
-                Keys.enabled = true
+                loadingBar.state = "selfTestOK"
             } else {
+                loadingBar.state = "ERROR"
                 item.labelText = qsTr("Failure.Error Code%1".arg(cd))
             }
         }
-        function scanLabel() {
-            item.labelText = qsTr(
-                        "System is setting reference image and\n"
-                        + "testing system function. \nwhen finished the Main menu will show up.")
-        }
 
-        function firstscanInterrupted() {
-            item.labelText = qsTr(
-                        "firstscan interrupted, press the button again")
-            tim2.stop()
-            prepareScan = false
-            initProc.firstScanClear()
-        }
-        function finalStep(cd) {
+        function firstScanReady(cd) {
             if (cd === 1) {
-                item.closePopup()
-                focus = false
-                initq.initAllSucceed()
+                loadingBar.state = "firstScanPrepared"
             } else {
+                loadingBar.state = "ERROR"
                 item.labelText = qsTr("Failure.Error Code%1".arg(cd))
             }
         }
-    }
 
-    Timer {
-        id: tim1
-        interval: 500
-        running: false
-        repeat: false
-        onTriggered: {
-            initProc.operateSelfTest()
+        function firstScanEnded(cd) {
+            if (cd === 1) {
+                loadingBar.state = "finished"
+            } else {
+                loadingBar.state = "ERROR"
+                item.labelText = qsTr("Failure.Error Code%1".arg(cd))
+            }
         }
     }
     Timer {
@@ -99,22 +142,23 @@ Item {
         running: false
         repeat: false
         onTriggered: {
-            if (loadingBar.scanButtonPressed == true) {
-                initProc.operateFirstScan()
-                loadingBar.scanLabel()
-                loadingBar.prepareScan = false
-                loadingBar.doingScan=true
+            if (loadingBar.scanButtonPressed === true) {
+                loadingBar.timeLimitExceeded = true
+                loadingBar.state = "onScan"
             }
         }
     }
 
     Connections {
         target: initProc
-        onHandleSTResults: {
-            loadingBar.nextStep(result)
+        onHandleSelfTestResults: {
+            loadingBar.selfTestEnded(result)
         }
-        onHandleFSResults: {
-            loadingBar.finalStep(result)
+        onHandleFirstScanResults: {
+            loadingBar.firstScanEnded(result)
+        }
+        onFirstScanReady: {
+            loadingBar.firstScanReady(result)
         }
     }
 }

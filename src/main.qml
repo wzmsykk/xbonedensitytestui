@@ -13,7 +13,22 @@ ApplicationWindow {
     FluidControls.SnackBar {
         id: snackBar
    }
+    Action{
+        id:back
+        shortcut: "Esc"
+        onTriggered: {
+            if(stackView.depth>1)stackView.pop();
+        }
+    }
 
+    Action {
+        id:specialSetShortCut
+    shortcut:"Ctrl+S"
+    onTriggered: {
+        stackView.push("AnimationTest2.qml")
+        specialSetShortCut.enabled=false
+        }
+    }
 
     header: ToolBar {
         id: toolBar
@@ -42,7 +57,12 @@ ApplicationWindow {
                 text: stackView.depth > 1 ? "\u25C0" : "\u2630"
                 font.pixelSize: Qt.application.font.pixelSize * 1.6
                 focusPolicy: Qt.NoFocus
+
                 onClicked: {
+                    if(specialSetShortCut.enabled===false){
+                        specialSetShortCut.enabled=true
+                    }
+
                     if (stackView.depth > 1) {
                         stackView.pop()
                     } else {
@@ -65,6 +85,7 @@ ApplicationWindow {
                 width: parent.width
                 onClicked: {
                     stackView.push("PersonalInfo.qml")
+
                     drawer.close()
                 }
             }
@@ -83,7 +104,11 @@ ApplicationWindow {
         id: stackView
         initialItem: "FrontPage.qml"
         anchors.fill: parent
-
+        focus: true
+        onActiveFocusChanged: {
+            if(stackView.activeFocus===true)
+                stackView.currentItem.forceActiveFocus()
+        }
 
 
     }
@@ -91,9 +116,12 @@ ApplicationWindow {
     Item {
         id: wait
         anchors.fill: parent
-        state: "ready"
-        states: [
-            State {
+        state: "loading"
+        enabled: true
+        states: [State {
+                name: "idle"
+            }
+            ,State {
                 name: "loading"
                 PropertyChanges {
                     target: wait
@@ -103,22 +131,39 @@ ApplicationWindow {
                     target: loadingProc
                     source: "initq.qml"
                     focus: true
-                    Keys.enabled: true
                 }
             },
             State {
                 name: "ready"
                 PropertyChanges {
+                    target: loadingProc
+                    focus: false
+                    source:""
+                    Keys.enabled: false
+                }
+                PropertyChanges {
+                    target: lbox
+                    color:"transparent"
+                    focus:false
+                    visible:false
+                    enabled:false
+                }
+                PropertyChanges {
                     target: wait
                     opacity: 0
                 }
+
             }
         ]
 
         Rectangle {
             id: lbox
-            anchors.fill: parent
             color: "#fafafa"
+            anchors.fill: parent
+            MouseArea{
+                anchors.fill: parent
+            }
+
             Loader {
                 id: loadingProc
                 x: 0
@@ -128,13 +173,12 @@ ApplicationWindow {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
 
-                asynchronous: true
-
                 Connections {
                     target: loadingProc.item
+
                     onInitAllSucceed: {
-                        loadingProc.focus = false
-                        loadingProc.source = ""
+                         wait.state="ready"
+
                     }
                 }
             }

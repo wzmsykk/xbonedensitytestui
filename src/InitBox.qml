@@ -6,7 +6,7 @@ import QtQuick.Controls.Material 2.3
 
 Item {
     id: initBox
-    property var labelText
+    property alias labelText: text1.text
     function openPopup(){
         rect1.open()
     }
@@ -41,10 +41,12 @@ Item {
         }
         Text {
             id: text1
-            text: labelText
+            text:""
             anchors.bottom: control.top
+            wrapMode: Text.WordWrap
             anchors.bottomMargin: 15
             clip: false
+            width:control.width
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 15

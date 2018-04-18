@@ -34,7 +34,7 @@ Page {
                           visArr[i]=false
                         }
                    }
-                   checkedButton.parent.parent.children[1].children[0].children[0].forceActiveFocus()//?
+                   checkedButton.parent.parent.children[1].children[0].children[0].forceActiveFocus()//it Workks
                    update()
 
 

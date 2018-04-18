@@ -4,9 +4,8 @@ import Fluid.Controls 1.0 as FluidControls
 import Fluid.Layouts 1.0
 import QtQuick.Controls.Material 2.3
 FluidControls.Card {
+
     id:card1
-    width: cardWidth
-    height: 0.9 * page.height
     property int elevation: 2
     property string loadQ: ""
     property string picSource: ""

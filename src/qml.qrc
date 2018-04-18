@@ -11,5 +11,7 @@
         <file>PassDialog.qml</file>
         <file>PrintSetDialog.qml</file>
         <file>InfoCom.qml</file>
+        <file>AnimationTest2.qml</file>
+        <file>Channel.qml</file>
     </qresource>
 </RCC>

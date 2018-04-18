@@ -31,6 +31,8 @@ Page {
 
         Card1 {
             id: card1
+            width: cardWidth
+            height: 0.9*page.height
             titleText: qsTr("SetPassWord")
             bodyText: qsTr("SetPassWord")
             focus: true
@@ -39,6 +41,8 @@ Page {
         }
         Card1 {
             id: card2
+            width: cardWidth
+            height: 0.9*page.height
             titleText: qsTr("SetTime")
             bodyText: qsTr("SetTime")
 
@@ -46,6 +50,8 @@ Page {
         }
         Card1 {
             id: card3
+            width: cardWidth
+            height: 0.9*page.height
             titleText: qsTr("PrintSettings")
             bodyText: qsTr("PrintSettings")
 

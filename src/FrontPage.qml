@@ -23,17 +23,24 @@ Page {
 
         Card1 {
             id: card1
+            width: cardWidth
+            height: 0.9*page.height
             titleText: qsTr("Start")
             bodyText: qsTr("Start up")
-            onPressed: stackView.push("PersonalInfo.qml")
+            onPressed: //stackView.push("PersonalInfo.qml")
+                        stackView.push("InfoCom.qml")
         }
         Card1 {
             id: card2
+            width: cardWidth
+            height: 0.9*page.height
             titleText: qsTr("ReAnalize")
             bodyText: qsTr("reanalize")
         }
         Card1 {
             id: card3
+            width: cardWidth
+            height: 0.9*page.height
             titleText: qsTr("Preference")
             bodyText: qsTr("Preference & Settings")
         }

@@ -12,7 +12,9 @@ public slots:
     void doFirstScan();
     void initFirstScan();
 signals:
-    void resultReady(int result);
+    void selfTestResultReady(int result);
+    void firstScanResultReady(int result);
+    void firstScanPreperationReady(int result);
 };
 
 
@@ -37,8 +39,9 @@ public:
 public slots:
      void cleanset();
 signals:
-    void handleSTResults(int result);
-    void handleFSResults(int result);
+    void handleSelfTestResults(int result);
+    void handleFirstScanResults(int result);
+    void firstScanReady(int result);
     void operateSelfTest();
     void prepareFirstScan();
     void operateFirstScan();
