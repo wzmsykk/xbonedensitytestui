@@ -5,19 +5,21 @@
 
 Initc::Initc()
 {
-    Worker *worker1 = new Worker;
+    InitWorker *worker1 = new InitWorker;
             worker1->moveToThread(&workerThread1);
-    Worker *worker2 = new Worker;
-            worker2->moveToThread(&workerThread1);
+    InitWorker *worker2 = new InitWorker;
+            worker2->moveToThread(&workerThread2);
             connect(&workerThread1, &QThread::finished, worker1, &QObject::deleteLater);
-            connect(this, &Initc::operateSelfTest, worker1, &Worker::doSelfTest);
-            connect(worker1, &Worker::selfTestResultReady, this, &Initc::handleSelfTestResults);
 
             connect(&workerThread2, &QThread::finished, worker2, &QObject::deleteLater);
-            connect(this, &Initc::operateFirstScan, worker2, &Worker::doFirstScan);
-            connect(this, &Initc::prepareFirstScan, worker2, &Worker::initFirstScan);
-            connect(worker2, &Worker::firstScanResultReady, this, &Initc::handleFirstScanResults);
-            connect(worker2, &Worker::firstScanPreperationReady, this, &Initc::firstScanReady);
+
+            connect(this, &Initc::operateSelfTest, worker1, &InitWorker::doSelfTest);
+            connect(worker1, &InitWorker::selfTestResultReady, this, &Initc::handleSelfTestResults);
+
+            connect(this, &Initc::operateFirstScan, worker1, &InitWorker::doFirstScan);
+            connect(this, &Initc::prepareFirstScan, worker1, &InitWorker::initFirstScan);
+            connect(worker1, &InitWorker::firstScanResultReady, this, &Initc::handleFirstScanResults);
+            connect(worker1, &InitWorker::firstScanPreperationReady, this, &Initc::firstScanReady);
 
             workerThread1.start();
             workerThread2.start();
@@ -25,7 +27,7 @@ Initc::Initc()
 
 
 
-void Worker::doSelfTest(){
+void InitWorker::doSelfTest(){
     //初始化内容
     qDebug("st1");
 
@@ -34,15 +36,16 @@ void Worker::doSelfTest(){
     emit selfTestResultReady(1);
 }
 
-void Worker::doFirstScan(){
+void InitWorker::doFirstScan(){
     //初始化内容
     qDebug("fs");
 
 
     QThread::sleep(2);//call firstscan proc
+
     emit firstScanResultReady(1);
 }
-void Worker::initFirstScan()
+void InitWorker::initFirstScan()
 {
     qDebug("initFS");
     QThread::sleep(1);

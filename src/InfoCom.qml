@@ -17,20 +17,25 @@ Page {
         animated[n] = true
         update()
     }
+    function nextstage(){
+        stackView.push("ScanProgress.qml")
+    }
+
     function update() {
         animated = animated
         statusArr = statusArr
     }
     Component {
         id: content0
-        Rectangle {
-            property alias inputText: input0.text
+        //Op ID
+            Rectangle {
+              id:body0
             height: 100
             anchors.top: parent.top
 
             TextField {
                 id:input0
-                text: ""
+                text: "22"
                 focus: true
                 onActiveFocusChanged: {
                     if(input0.activeFocus===true) input0.selectAll()
@@ -39,38 +44,70 @@ Page {
                     bottom: 0
                     top: 999
                 }
+                Keys.onReturnPressed: {
+                    open1.trigger()
+                }
 
             }
+            Action{
+                id:open1
+                onTriggered: {
+                statusArr[0]=true
+                ch1.click()}
+            }
+
             Button {
                 anchors.top: input0.bottom
-                 id:continue0
+                id:continue0
                 text: qsTr("Next")
-                enabled: !input0.text===""
+                action: open1
+
+                enabled: !(input0.text==="")
             }
         }
+
     }
     Component {
         id: content1
+        //Patient ID
         Column {
             anchors.top:parent.top
             height: 100
         TextField {
             id:input1
             focus: true
-            text: "body1"
+            text: ""
+            validator: IntValidator {
+                bottom: 0
+                top: 9999
+            }
+            Keys.onReturnPressed: {
+                open2.trigger()
+            }
             onFocusChanged: {
                 if(input1.activeFocus===true) input1.selectAll()
             }
 
         }
+        Action{
+            id:open2
+            onTriggered: {
+            statusArr[1]=true
+            ch2.click()}
+        }
+
         Button {
             id:continue1
-            text: qsTr("continue")
+            text: qsTr("Next")
+            action: open2
+
+            enabled: !(input1.text==="")
         }
         }
     }
     Component {
         id: content2
+        //patient Age
         Column {
             anchors.top:parent.top
             height: 100
@@ -78,33 +115,54 @@ Page {
         TextField {
             id:input2
             focus: true
-            text: "body1"
+            text: ""
+            validator: IntValidator {
+                bottom: 0
+                top: 200
+            }
             onFocusChanged: {
                 if(input2.activeFocus===true) input2.selectAll()
             }
+            Keys.onReturnPressed: {
+                open3.trigger()
+            }
 
+        }
+        Action{
+            id:open3
+            onTriggered: {
+            statusArr[2]=true
+            ch3.click()}
         }
         Button {
             id:continue2
-            text: qsTr("continue")
+             enabled: !(input2.text==="")
+             action: open3
+            text: qsTr("Next")
         }
       }
     }
     Component {
         id: content3
+        //gender
         Column {
             anchors.top:parent.top
             height: 100
 
-        TextField {
-            id:input3
-            focus: true
-            text: "body1"
-
+        ComboBox{
+                id:cb3
+                model: [qsTr("Male"),qsTr("Female")]
+        }
+        Action{
+            id:open4
+            onTriggered: {
+            statusArr[3]=true
+            ch4.click()}
         }
         Button {
             id:continue3
             text: qsTr("continue")
+            action: open4
         }
       }
     }
@@ -114,14 +172,31 @@ Page {
             anchors.top:parent.top
             height: 100
 
-        TextField {
-            id:input4
-            focus: true
-            text: "body1"
-        }
+            ComboBox{
+                    id:cb4
+                    model: [qsTr("Caucasian"),qsTr("Asian"),qsTr("Others")]
+            }
+            Action{
+                id:open5
+                onTriggered: {
+                statusArr[4]=true
+                var flag=true
+                    for(var i=0;i<5;i++)
+                {
+                    if(statusArr[i]===false)
+                        flag=false
+                }
+                    if(flag===true) {
+                    nextstage()
+                    }
+
+                }
+            }
         Button {
             id:continue4
-            text: qsTr("continue")
+            text: qsTr("Next")
+            action: open5
+
         }
       }
     }
@@ -131,8 +206,15 @@ Page {
         content2.createObject(ch2.contentParent)
         content3.createObject(ch3.contentParent)
         content4.createObject(ch4.contentParent)
-        console.log(content0.parent)
         ch0.roundButton.toggle()
+    }
+    Button{
+        id:nextpage
+        visible: uiTest
+        anchors.right: parent.right
+        onClicked: {
+            nextstage()
+        }
     }
 
     Rectangle {

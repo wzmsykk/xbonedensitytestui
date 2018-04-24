@@ -1,9 +1,9 @@
-#ifndef initc_H
-#define initc_H
+#ifndef INITC_H
+#define INITC_H
 #include <QObject>
 #include<QThread>
 //
-class Worker : public QObject
+class InitWorker : public QObject
 {
     Q_OBJECT
 

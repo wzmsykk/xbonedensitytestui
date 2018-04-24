@@ -29,6 +29,7 @@ Page {
             bodyText: qsTr("Start up")
             onPressed: //stackView.push("PersonalInfo.qml")
                         stackView.push("InfoCom.qml")
+            picSource:"/pic/tmp.jpg"
         }
         Card1 {
             id: card2
@@ -36,6 +37,7 @@ Page {
             height: 0.9*page.height
             titleText: qsTr("ReAnalize")
             bodyText: qsTr("reanalize")
+            picSource:"/pic/tmp.jpg"
         }
         Card1 {
             id: card3
@@ -43,6 +45,7 @@ Page {
             height: 0.9*page.height
             titleText: qsTr("Preference")
             bodyText: qsTr("Preference & Settings")
+            picSource:"/pic/tmp.jpg"
         }
         Connections{
             target: card3

@@ -6,6 +6,7 @@ import QtQuick.Controls.Material 2.3
 
 
 //USED in InfoCom
+//Need Rework
 Rectangle {
     id: ch0
     default property alias children: area1.children
@@ -18,6 +19,10 @@ Rectangle {
     property alias roundButton: rb1
     property alias buttonText: rb1.text
     signal rbCheckedChanged(var checked)
+    function click(){
+        rb1.toggle()
+    }
+
     //width: parent.width
     width: 200
     height: visibleHeight+contentHeight
@@ -36,15 +41,23 @@ Rectangle {
             checkable: true
 
             //Material:
-            onCheckedChanged: {
-                if (rb1.checked === true) {
-                    rbCheckedChanged(true)
-                    contentVisible=true
+            onToggled: {
+                 area1.forceActiveFocus()
+               }
 
-                } else {
-                    rbCheckedChanged(false)
-                    contentVisible=false
-                }
+            onCheckedChanged: {
+                    if (rb1.checked === true) {
+                         area1.forceActiveFocus()
+                        rbCheckedChanged(true)
+                        contentVisible=true
+
+
+                    } else {
+                        rbCheckedChanged(false)
+                        contentVisible=false
+
+                    }
+
             }
 
         }
@@ -69,15 +82,14 @@ Rectangle {
             width: rb1.width
             height: 1
         }
-        Rectangle {
+        FocusScope {
             id: area1
             width: parent.width - bannerHeight
             height: 60
-            color: "transparent"
+            visible: false
             onChildrenChanged: {
 
                 area1.height=children[0].height
-                console.log(area1.height)
             }
         }
     }

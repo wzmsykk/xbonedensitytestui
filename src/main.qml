@@ -4,6 +4,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import Fluid.Controls 1.0 as FluidControls
 ApplicationWindow {
+    property bool uiTest: true
     id: root
     visible: true
     width: 640
@@ -14,10 +15,16 @@ ApplicationWindow {
         id: snackBar
    }
     Action{
-        id:back
+        id:backAction
         shortcut: "Esc"
+        property bool alerted: false
         onTriggered: {
-            if(stackView.depth>1)stackView.pop();
+
+            if(stackView.depth>1){
+
+                 stackView.pop();
+
+            }
         }
     }
 
@@ -102,10 +109,31 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "LoadPage.qml"
+        initialItem: "FrontPage.qml"
         anchors.fill: parent
 
 
+    }
+    Rectangle{
+        id:shha
+        color: "#fafafa"
+        anchors.fill: parent
+        visible: !uiTest
+    }
+
+    Loader{
+        id:ld
+        anchors.centerIn: parent
+        source: uiTest?"":"initq.qml"
+        height: parent.height*0.4
+        width: parent.width*0.6
+        Connections{
+            target: ld.item
+            onInitAllSucceed:{
+                shha.color="transparent"
+                shha.visible=false
+            }
+        }
     }
 
 
