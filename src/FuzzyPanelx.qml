@@ -13,7 +13,7 @@ Rectangle {
     property alias titleText: titleText
     clip: true
 
-    state:"normal"
+
     transitions: Transition {
         AnchorAnimation {
             duration: 200
@@ -22,7 +22,6 @@ Rectangle {
     }
     MouseArea{
         anchors.fill:parent
-        enabled: pane.state==="normal"
         onPressed: {
             backgr.opacity=0.3
         }
@@ -34,6 +33,7 @@ Rectangle {
 
             if(parent.state==="normal")
             {parent.state="expand"}
+
         }
     }
     Rectangle{

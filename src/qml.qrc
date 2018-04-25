@@ -1000,5 +1000,9 @@
         <file>settings.h</file>
         <file>pic/timg2.jpg</file>
         <file>pic/timg3.jpg</file>
+        <file>icons/action/assessment_copy.svg</file>
+        <file>CancelButton.qml</file>
+        <file>AcceptButton.qml</file>
+        <file>FuzzyPanelx.qml</file>
     </qresource>
 </RCC>
