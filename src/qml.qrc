@@ -1004,5 +1004,8 @@
         <file>CancelButton.qml</file>
         <file>AcceptButton.qml</file>
         <file>FuzzyPanelx.qml</file>
+        <file>InputPanel.qml</file>
+        <file>PanelTile.qml</file>
+        <file>AnchorScript.qml</file>
     </qresource>
 </RCC>

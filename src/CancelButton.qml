@@ -36,12 +36,12 @@ Rectangle {
             name: "pressed"
             PropertyChanges {
                 target: backtangle
-                color:"white"
+                color:"#F44336"
                 opacity:0.4
             }
             PropertyChanges {
                 target: label1
-                color: "#F44336"
+                color: "white"
                 opacity: 1
             }
         },State {

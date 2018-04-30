@@ -17,17 +17,11 @@ ApplicationWindow {
     property int vMargin: 10
     property int hMargin: 10
     property int toolBarHeight: 0.14 * root.height
+    property string primaryColor: "#607D8B"
 
-    function showActions00(){
-        acceptButton.state="idle"
-        cancelButton.state="idle"
 
-        backAction00.enabled=true
-    }
-    function hideActions00(){
-        acceptButton.state="invisible"
-        cancelButton.state="invisible"
-        backAction00.enabled=false
+    AnchorScript {
+        id: anchorScript
     }
 
     background: Rectangle {
@@ -73,6 +67,17 @@ ApplicationWindow {
         x: parent.width / 2
         y: (parent.height - toolbar.height - vMargin) / 2
     }
+    InputPanel {
+        id: inputPanel
+        anchors.bottom: toolbar.top
+        anchors.margins: 10
+        anchors.top: parent.top
+        anchors.left: undefined
+        anchors.right: parent.right
+        state: "hide"
+        backgI: backGImage
+    }
+
     Rectangle {
         id: toolbar
         color: "transparent"
@@ -119,6 +124,45 @@ ApplicationWindow {
             }
 
     }
+    FuzzyPanel{
+        id:workPage
+        anchors.top:parent.top
+        anchors.left: parent.left
+        anchors.right: parent.left
+        target: backGImage
+        state: "hide"
+        states: [State {
+                name: "hide"
+                AnchorChanges {
+                    target:workPage
+                    anchors.top:parent.top
+                    anchors.left: parent.right
+                    anchors.bottom: toolbar.top
+                    anchors.right: undefined
+
+                }
+                PropertyChanges{
+                    target: workPage
+                    width:parent.width
+                    visible:false
+                }
+            },State {
+                name: "show"
+                PropertyChanges {
+                    target: workPage
+                    width:undefined
+                    visible:true
+                }
+                AnchorChanges {
+                    target:workPage
+                    anchors.top:parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: toolbar.top
+
+                }
+            }]
+    }
 
     FuzzyPanel {
         id: lefttop
@@ -126,6 +170,10 @@ ApplicationWindow {
         anchors.bottom: centPoint.top
         anchors.right: centPoint.left
         anchors.top: parent.top
+        anchors.leftMargin: hMargin
+        anchors.topMargin: vMargin
+        anchors.bottomMargin: hMargin / 2
+        anchors.rightMargin: vMargin / 2
         state: "normal"
         titleHeight: 45
         titleColor: "#03A9F4"
@@ -133,89 +181,30 @@ ApplicationWindow {
         target: backGImage
         Rectangle{
             id:lefttopContentArea
-            anchors.fill: parent
+            anchors.top: lefttop.titleBar.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
             visible: false
-            opacity: 0
+            opacity: 1
             color: "transparent"
+            enabled: false
             Behavior on opacity {NumberAnimation{}}
+            Grid{
+                columns: 3
 
-        }
+            TextField{
 
-        states: [
-            State {
-                name: "expand"
-                StateChangeScript{
-                    script: showActions00()
-                }
-
-                AnchorChanges {
-                    target: lefttop.titleText
-                    anchors.left: undefined
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                AnchorChanges {
-                    target: leftbottom
-                    anchors.bottom: undefined
-                    anchors.left: undefined
-                    anchors.top: parent.bottom
-                    anchors.right: parent.right
-                }
-                AnchorChanges {
-                    target: righttop
-                    anchors.top: undefined
-                    anchors.right: undefined
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.right
-                }
-                AnchorChanges {
-                    target: rightbottom
-                    anchors.bottom: undefined
-                    anchors.right: undefined
-                    anchors.top: parent.bottom
-                    anchors.left: parent.right
-                }
-
-                AnchorChanges {
-                    target: lefttop
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-                    anchors.bottom: toolbar.top
-                    anchors.right: parent.right
-                }
-                PropertyChanges {
-                    target: lefttop
-                    anchors.leftMargin: hMargin
-                    anchors.topMargin: vMargin
-                    anchors.bottomMargin: hMargin
-                    anchors.rightMargin: vMargin
-                }
-            },
-            State {
-                name: "normal"
-                StateChangeScript{
-                    script: hideActions00()
-                }
-                AnchorChanges {
-                    target: lefttop.titleText
-                    anchors.horizontalCenter: undefined
-                    anchors.left: parent.left
-                }
-                AnchorChanges {
-                    target: lefttop
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.bottom: centPoint.top
-                    anchors.right: centPoint.left
-                }
-                PropertyChanges {
-                    target: lefttop
-                    anchors.leftMargin: hMargin
-                    anchors.topMargin: vMargin
-                    anchors.bottomMargin: hMargin / 2
-                    anchors.rightMargin: vMargin / 2
-                }
+                id:text1
+                enabled: true
+                focus: true
+                height: 80
+                width: 200
             }
-        ]
+            }
+
+
+        }      
     }
     FuzzyPanel {
         id: leftbottom
@@ -433,7 +422,35 @@ ApplicationWindow {
         target: cancelButton
         enabled:false
         onButtonClicked:{
-            lefttop.state="normal"
+            anchorScript.state="normal"
+            lefttopshowAction.enabled=true
+        }
+    }
+    Connections{
+        id:lefttopshowAction
+        target: lefttop
+        enabled:true
+        onPanelClicked:{
+            anchorScript.state="lefttopshow"
+            lefttopInputPanelShowAction=true
+            lefttopshowAction.enabled=false
+        }
+    }
+    Connections{
+        id:lefttopInputPanelShowAction
+        target: lefttop
+        enabled:false
+        onPanelClicked:{
+            anchorScript.state="lefttopInput"
+        }
+    }
+
+    Connections{
+        id:acceptAction00
+        target: acceptButton
+        enabled:false
+        onButtonClicked:{
+
         }
     }
 }

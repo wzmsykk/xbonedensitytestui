@@ -7,19 +7,16 @@ import QtGraphicalEffects 1.0
 Rectangle {
     id:pane
     property Item target
+    clip: true
     property int titleHeight: pane.height*0.14
     property alias titleBar: titleBar
     property alias titleColor: titleBar.color
     property alias titleText: titleText
-    clip: true
+    signal panelClicked()
 
     state:"normal"
-    transitions: Transition {
-        AnchorAnimation {
-            duration: 200
-           easing.type: Easing.InOutQuad
-        }
-    }
+
+
     MouseArea{
         anchors.fill:parent
         enabled: pane.state==="normal"
@@ -32,15 +29,14 @@ Rectangle {
 
         onClicked: {
 
-            if(parent.state==="normal")
-            {parent.state="expand"}
+            panelClicked()
         }
     }
     Rectangle{
         id:backgr
-    color: "white"
+        color: "white"
+        anchors.fill: parent
     opacity: 0.74
-    anchors.fill: parent
     FastBlur {
         id: blur
         source: target
@@ -55,18 +51,25 @@ Rectangle {
         height: titleHeight
         width: parent.width
         opacity: 0.86
+        Rectangle{
+            anchors.fill: parent
+            anchors.leftMargin: 10
+            anchors.rightMargin: 10
+            color: "transparent"
         Text {
 
             id: titleText
             color: "#ffffff"
             text: "MyText"
-
+            anchors.left: parent.left
             font.bold: false
             font.weight: Font.Normal
             font.pointSize: 40
             fontSizeMode: Text.VerticalFit
             height: parent.height
+            width: titleText.paintedWidth
 
+        }
         }
     }
 
