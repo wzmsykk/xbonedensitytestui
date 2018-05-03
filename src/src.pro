@@ -14,7 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp \
     initc.cpp \
     scan.cpp \
-    settings.cpp
+    settings.cpp \
+    svgedit.cpp
 
 RESOURCES += qml.qrc
 
@@ -54,4 +55,5 @@ DISTFILES += \
 HEADERS += \
     initc.h \
     scan.h \
-    settings.h
+    settings.h \
+    svgedit.h

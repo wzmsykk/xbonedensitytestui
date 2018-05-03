@@ -48,9 +48,12 @@ Rectangle {
     }
     Rectangle {
         id: titleBar
-        height: titleHeight
+        //height: titleHeight
+        height:0
         width: parent.width
         opacity: 0.86
+
+        visible: false//temp invisible
         Rectangle{
             anchors.fill: parent
             anchors.leftMargin: 10

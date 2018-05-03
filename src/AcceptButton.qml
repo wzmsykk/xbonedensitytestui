@@ -11,6 +11,7 @@ Rectangle {
     implicitHeight: 40
     implicitWidth: 60
     state: "invisible"
+    property alias text: label1.text
     signal buttonClicked()
     Behavior on opacity {NumberAnimation{}}
     states: [

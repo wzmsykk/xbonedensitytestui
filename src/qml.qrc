@@ -1007,5 +1007,6 @@
         <file>InputPanel.qml</file>
         <file>PanelTile.qml</file>
         <file>AnchorScript.qml</file>
+        <file>FlatTextField.qml</file>
     </qresource>
 </RCC>

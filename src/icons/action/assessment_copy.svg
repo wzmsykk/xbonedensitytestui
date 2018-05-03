@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M38 6H10c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V10c0-2.21-1.79-4-4-4zM18 34h-4V20h4v14zm8 0h-4V14h4v20zm8 0h-4v-8h4v8z" fill="white"/></svg>
+<svg width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <defs>
+  <filter height="200%" width="200%" y="-50%" x="-50%" id="svg_1_blur">
+   <feGaussianBlur stdDeviation="0.00"/>
+  </filter>
+ </defs>
+ <g class="layer">
+  <title>图层 2</title>
+  <path stroke="#000000" id="svg_2" stroke-opacity="0" filter="url(#svg_1_blur)" fill="#ffffff" stroke-width="1.5" d="m39.95876,5.01611l-9.41829,0c-0.9227,-2.61822 -3.39824,-4.51416 -6.33513,-4.51416s-5.41243,1.89594 -6.33512,4.51416l-9.41829,0c-2.48679,0 -4.50098,2.02009 -4.50098,4.51415l0,31.59913c0,2.49408 2.01419,4.51416 4.50098,4.51416l31.50683,0c2.48679,0 4.50098,-2.02009 4.50098,-4.51416l0,-31.59913c0,-2.49407 -2.01419,-4.51415 -4.50098,-4.51415z"/>
+ </g>
+ <g class="layer">
+  <title>Layer 1</title>
+  <path stroke="#010101" filter="url(#svg_1_blur)" fill="none" stroke-width="2" id="svg_1" d="m38.2373,7.22322l-8.37,0c-0.82,-2.32 -3.02,-4 -5.63,-4s-4.81,1.68 -5.63,4l-8.37,0c-2.21,0 -4,1.79 -4,4l0,28c0,2.21 1.79,4 4,4l28,0c2.21,0 4,-1.79 4,-4l0,-28c0,-2.21 -1.79,-4 -4,-4zm-14,0c1.1,0 2,0.89 2,2s-0.9,2 -2,2s-2,-0.89 -2,-2s0.9,-2 2,-2zm4,28l-14,0l0,-4l14,0l0,4zm6,-8l-20,0l0,-4l20,0l0,4zm0,-8l-20,0l0,-4l20,0l0,4z"/>
+ </g>
+</svg>

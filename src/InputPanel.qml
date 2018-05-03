@@ -9,19 +9,19 @@ Rectangle{
     id:inputPanel
     width: parent.width*0.4
     property Item backgI
-    property Item target
+    property Item targetDist
     property string chars: ""
     clip: true
     property int gridSpacing:6
     property int tileWidth: (inputPanel.width-2*gridSpacing)/3
     property int tileHeight: (inputPanel.height-3*gridSpacing)/4
     function applyKey(inkey){
-        if(target!=null){
+        if(targetDist!=null){
             if(inkey==="\u232B")
-            {target.remove(target.length-1,target.length)}
+            {targetDist.remove(targetDist.length-1,targetDist.length)}
                else if(inkey==="Next"){
             }
-            else{ target.text+=inkey }
+            else{ targetDist.text+=inkey }
         }
         console.log(inkey)
     }

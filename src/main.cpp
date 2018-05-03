@@ -5,10 +5,12 @@
 #include "initc.h"
 #include "settings.h"
 #include "scan.h"
+#include "svgedit.h"
 int main(int argc, char *argv[])
 {
+    svgEdit ss;
+    ss.changeIcon("#aaaaaa");
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
     qmlRegisterType<Initc>("com.kp.initc",1,0,"Initc");
     qmlRegisterType<Scan>("com.kp.scan",1,0,"Scan");
     qmlRegisterType<Settings>("com.kp.settings",1,0,"Settings");
@@ -18,6 +20,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
      engine.rootContext()->setContextProperty("mySet",&mySet);
+     engine.rootContext()->setContextProperty("applicationDirPath",QGuiApplication::applicationDirPath());
     engine.addImportPath(QCoreApplication::applicationDirPath() + QDir::separator() + QLatin1String("..") +
                              QDir::separator() + QLatin1String("fluid") + QDir::separator() + QLatin1String("qml"));
     engine.addImportPath(QCoreApplication::applicationDirPath() + QDir::separator() + QLatin1String("qml"));

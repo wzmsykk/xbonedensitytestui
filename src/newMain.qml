@@ -72,8 +72,8 @@ ApplicationWindow {
         anchors.bottom: toolbar.top
         anchors.margins: 10
         anchors.top: parent.top
-        anchors.left: undefined
-        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.right: undefined
         state: "hide"
         backgI: backGImage
     }
@@ -185,22 +185,55 @@ ApplicationWindow {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            visible: false
             opacity: 1
             color: "transparent"
-            enabled: false
+            state: "01"
+            states: [State {
+                    name: "01"
+
+                },State {
+                    name: "02"
+                    PropertyChanges {
+                        target: content02
+                        visible:true
+                    }
+                    PropertyChanges{
+                        target: content01
+                        opacity:0
+                    }                }]
             Behavior on opacity {NumberAnimation{}}
-            Grid{
-                columns: 3
-
-            TextField{
-
-                id:text1
-                enabled: true
-                focus: true
-                height: 80
-                width: 200
+            Row{
+                id:content01
+                height:parent.height*0.7
+                width: parent.width*0.9
+                anchors.centerIn:parent
+                spacing: 20
+                Image {
+                    id: img01
+                    source: "file:"+applicationDirPath+"/00.svg"
+                    height: parent.height*0.8
+                    width: parent.height*0.8
+                }
+                Text{
+                    text:"Start"
+                    fontSizeMode:Text.Fit
+                    font.pixelSize: 72
+                    color: primaryColor
+                }
             }
+
+            Grid{
+                id:content02
+                columns: 3
+                visible: false
+                FlatTextField {
+                    id: text1
+                    enabled: true
+                    focus: true
+                    height: 80
+                    width: 200
+                }
+
             }
 
 
@@ -223,41 +256,7 @@ ApplicationWindow {
         states: [
             State {
                 name: "expand"
-                AnchorChanges {
-                    target: leftbottom.titleText
-                    anchors.left: undefined
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                AnchorChanges {
-                    target: lefttop
-                    anchors.left: undefined
-                    anchors.top: undefined
-                    anchors.bottom: parent.top
-                    anchors.right: parent.right
-                }
-                AnchorChanges {
-                    target: rightbottom
-                    anchors.bottom: undefined
-                    anchors.right: undefined
-                    anchors.top: parent.top
-                    anchors.left: parent.right
-                }
-                AnchorChanges {
-                    target: leftbottom
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-                    anchors.bottom: toolbar.top
 
-                    anchors.right: parent.right
-                }
-                AnchorChanges {
-                    target: righttop
-                    anchors.right: undefined
-                    anchors.top: undefined
-                    anchors.bottom: parent.top
-
-                    anchors.left: parent.right
-                }
             },
             State {
                 name: "normal"
@@ -293,41 +292,7 @@ ApplicationWindow {
         states: [
             State {
                 name: "expand"
-                AnchorChanges {
-                    target: righttop.titleText
-                    anchors.left: undefined
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                AnchorChanges {
-                    target: lefttop
-                    anchors.left: undefined
-                    anchors.top: undefined
-                    anchors.bottom: parent.bottom
-                    anchors.right: parent.left
-                }
-                AnchorChanges {
-                    target: rightbottom
-                    anchors.bottom: undefined
-                    anchors.right: undefined
-                    anchors.top: parent.bottom
-                    anchors.left: parent.left
-                }
-                AnchorChanges {
-                    target: leftbottom
-                    anchors.left: undefined
 
-                    anchors.bottom: undefined
-                    anchors.top: parent.bottom
-                    anchors.right: parent.left
-                }
-                AnchorChanges {
-                    target: righttop
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-                    anchors.bottom: toolbar.top
-
-                    anchors.right: parent.right
-                }
             },
             State {
                 name: "normal"
@@ -363,41 +328,7 @@ ApplicationWindow {
         states: [
             State {
                 name: "expand"
-                AnchorChanges {
-                    target: rightbottom.titleText
-                    anchors.left: undefined
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                AnchorChanges {
-                    target: lefttop
-                    anchors.left: undefined
-                    anchors.top: undefined
-                    anchors.bottom: parent.top
-                    anchors.right: parent.left
-                }
-                AnchorChanges {
-                    target: righttop
-                    anchors.bottom: parent.top
-                    anchors.right: undefined
-                    anchors.top: undefined
-                    anchors.left: parent.left
-                }
-                AnchorChanges {
-                    target: leftbottom
-                    anchors.left: undefined
-                    anchors.top: parent.top
-                    anchors.bottom: undefined
 
-                    anchors.right: parent.left
-                }
-                AnchorChanges {
-                    target: rightbottom
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-                    anchors.bottom: toolbar.top
-
-                    anchors.right: parent.right
-                }
             },
             State {
                 name: "normal"
@@ -417,40 +348,5 @@ ApplicationWindow {
             }
         ]
     }
-    Connections{
-        id:backAction00
-        target: cancelButton
-        enabled:false
-        onButtonClicked:{
-            anchorScript.state="normal"
-            lefttopshowAction.enabled=true
-        }
-    }
-    Connections{
-        id:lefttopshowAction
-        target: lefttop
-        enabled:true
-        onPanelClicked:{
-            anchorScript.state="lefttopshow"
-            lefttopInputPanelShowAction=true
-            lefttopshowAction.enabled=false
-        }
-    }
-    Connections{
-        id:lefttopInputPanelShowAction
-        target: lefttop
-        enabled:false
-        onPanelClicked:{
-            anchorScript.state="lefttopInput"
-        }
-    }
 
-    Connections{
-        id:acceptAction00
-        target: acceptButton
-        enabled:false
-        onButtonClicked:{
-
-        }
-    }
 }
