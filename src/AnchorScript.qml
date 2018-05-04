@@ -103,6 +103,7 @@ Item {
                 target: inputPanel
                 anchors.left: undefined
                 anchors.right: parent.right
+
             }
             AnchorChanges {
                 target: lefttop
@@ -113,6 +114,7 @@ Item {
             PropertyChanges {
                 target: inputPanel
                 targetDist: text1
+                state:"show"
             }
         },
         State {
@@ -176,6 +178,11 @@ Item {
                 enabled: true
                 state: "idle"
             }
+            PropertyChanges {
+                target: leftbottomContentArea
+                state:"02"
+
+            }
         },
         State {
             name: "righttopshow"
@@ -233,6 +240,7 @@ Item {
 
                 anchors.right: parent.right
             }
+
         },
         State {
             name: "rightbottomshow"
@@ -360,8 +368,9 @@ Item {
         enabled: true
         onPanelClicked: {
             anchorScript.state = "lefttopshow"
+            anchorScript.state = "lefttopInput"
             lefttopShowAction.enabled = false
-            lefttopInputPanelShowAction = true
+            //lefttopInputPanelShowAction = true
         }
     }
     Connections {

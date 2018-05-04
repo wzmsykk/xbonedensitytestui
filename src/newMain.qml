@@ -17,7 +17,7 @@ ApplicationWindow {
     property int vMargin: 10
     property int hMargin: 10
     property int toolBarHeight: 0.14 * root.height
-    property string primaryColor: "#607D8B"
+    property string primaryColor: "#ffffff"
 
 
     AnchorScript {
@@ -74,7 +74,6 @@ ApplicationWindow {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: undefined
-        state: "hide"
         backgI: backGImage
     }
 
@@ -194,46 +193,92 @@ ApplicationWindow {
                 },State {
                     name: "02"
                     PropertyChanges {
-                        target: content02
+                        target: lt02
                         visible:true
                     }
                     PropertyChanges{
-                        target: content01
+                        target: lt01
                         opacity:0
                     }                }]
-            Behavior on opacity {NumberAnimation{}}
+
             Row{
-                id:content01
+                id:lt01
                 height:parent.height*0.7
                 width: parent.width*0.9
                 anchors.centerIn:parent
                 spacing: 20
                 Image {
-                    id: img01
-                    source: "file:"+applicationDirPath+"/00.svg"
+                    id: img00
+                    source: "icons/00.svg"
                     height: parent.height*0.8
+                    anchors.verticalCenter: parent.verticalCenter
                     width: parent.height*0.8
                 }
                 Text{
+                    color: "#ffffff"
                     text:"Start"
+                    anchors.verticalCenter: parent.verticalCenter
                     fontSizeMode:Text.Fit
                     font.pixelSize: 72
-                    color: primaryColor
                 }
             }
 
-            Grid{
-                id:content02
-                columns: 3
+            Column{
+                id:lt02
+                anchors.fill: parent
+                anchors.margins: 20
+
                 visible: false
-                FlatTextField {
-                    id: text1
-                    enabled: true
-                    focus: true
-                    height: 80
-                    width: 200
+                spacing: 6
+                Label{
+                    text:qsTr("Info")
                 }
 
+                FlatTextField {
+                    id: text1
+                    title:qsTr("Op ID")
+                    enabled: true
+                    focus: true
+                    width: parent.width
+                    height: (parent.height-parent.rowSpacing*3)/2
+                    onFocused: {
+                        inputPanel.targetDist=text1
+                        inputPanel.state="numberial"
+                    }
+                }
+                FlatTextField {
+                    id: text2
+                    title: qsTr("Patient Age")
+                    enabled: true
+                    width:parent.width
+                    height:(parent.height-parent.rowSpacing*3)/2
+                    onFocused: {
+                        inputPanel.targetDist=text2
+                        inputPanel.state="numberial"
+                    }
+                }
+                Row{
+                    spacing: 6
+                    width: text2.width
+                FlatSelection {
+                    id: u3
+                    title: qsTr("Gender")
+                    model: [qsTr("male"),qsTr("female")]
+                    onFocused: {
+                        inputPanel.targetDist=u3
+                        inputPanel.state="selection"
+                    }
+                }
+                FlatSelection {
+                    id: u4
+                    title: qsTr("Race")
+                    model: [qsTr("Css"),qsTr("Asian"),qsTr("Others")]
+                    onFocused: {
+                        inputPanel.targetDist=u4
+                        inputPanel.state="selection"
+                    }
+                }
+                }
             }
 
 
@@ -253,27 +298,67 @@ ApplicationWindow {
         titleColor: "#03A9F4"
         titleText.text: qsTr("Settings")
         target: backGImage
-        states: [
-            State {
-                name: "expand"
+        Rectangle{
+            id:leftbottomContentArea
+            anchors.top: leftbottom.titleBar.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            opacity: 1
+            color: "transparent"
+            state: "01"
+            states: [State {
+                    name: "01"
 
-            },
-            State {
-                name: "normal"
-                AnchorChanges {
-                    target: leftbottom.titleText
-                    anchors.horizontalCenter: undefined
-                    anchors.left: parent.left
+                },State {
+                    name: "02"
+                    PropertyChanges {
+                        target: lb02
+                        visible:true
+                    }
+                    PropertyChanges{
+                        target: lb01
+                        opacity:0
+                    }                }]
+
+            Row{
+                id:lb01
+                height:parent.height*0.7
+                width: parent.width*0.9
+                anchors.centerIn:parent
+                spacing: 6
+                Image {
+                    id:img01
+
+                    source: "icons/01.svg"
+                    height: parent.height*0.8
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: parent.height*0.8
                 }
-                AnchorChanges {
-                    target: leftbottom
-                    anchors.bottom: toolbar.top
-                    anchors.left: parent.left
-                    anchors.top: centPoint.top
-                    anchors.right: centPoint.left
+                Text{
+                    text:"Results"
+                    width: parent.width-img00.width
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.family: "Tahoma"
+                    fontSizeMode:Text.Fit
+                    font.pixelSize: 72
+                    color: primaryColor
                 }
             }
-        ]
+
+            Grid{
+                id:lb02
+                columns: 3
+                visible: false
+                Image {
+                    id: boneImage
+                    source: "/pic/tmp.jpg"
+                }
+
+            }
+
+
+        }
     }
     FuzzyPanel {
         id: righttop
@@ -289,27 +374,7 @@ ApplicationWindow {
         titleHeight: 45
         titleColor: "#03A9F4"
         target: backGImage
-        states: [
-            State {
-                name: "expand"
 
-            },
-            State {
-                name: "normal"
-                AnchorChanges {
-                    target: righttop.titleText
-                    anchors.horizontalCenter: undefined
-                    anchors.left: parent.left
-                }
-                AnchorChanges {
-                    target: righttop
-                    anchors.bottom: centPoint.top
-                    anchors.left: centPoint.left
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-                }
-            }
-        ]
     }
     FuzzyPanel {
         id: rightbottom
@@ -325,28 +390,7 @@ ApplicationWindow {
         titleHeight: 45
         titleColor: "#03A9F4"
         target: backGImage
-        states: [
-            State {
-                name: "expand"
 
-            },
-            State {
-                name: "normal"
-                AnchorChanges {
-                    target: rightbottom.titleText
-                    anchors.horizontalCenter: undefined
-                    anchors.left: parent.left
-                }
-                AnchorChanges {
-                    target: rightbottom
-                    anchors.bottom: toolbar.top
-
-                    anchors.right: parent.right
-                    anchors.top: centPoint.top
-                    anchors.left: centPoint.left
-                }
-            }
-        ]
     }
 
 }

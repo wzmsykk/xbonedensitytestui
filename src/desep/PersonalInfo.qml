@@ -49,7 +49,7 @@ Page {
             label: RowLayout {
                 RoundButton {
                     id: rb1
-                    text:  statusArr[0]? "✔" : "1"
+                    text:statusArr[0]? "✔" : "1"
                     spacing: 1
                     checked: true
                     checkable: true

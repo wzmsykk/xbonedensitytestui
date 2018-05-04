@@ -24,7 +24,7 @@ Rectangle {
             backgr.opacity=0.3
         }
         onReleased: {
-            backgr.opacity=0.7
+            backgr.opacity=0.65
         }
 
         onClicked: {
@@ -36,7 +36,7 @@ Rectangle {
         id:backgr
         color: "white"
         anchors.fill: parent
-    opacity: 0.74
+    opacity: 0.65
     FastBlur {
         id: blur
         source: target

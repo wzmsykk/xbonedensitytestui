@@ -12,20 +12,59 @@ Rectangle{
     property Item targetDist
     property string chars: ""
     clip: true
+
     property int gridSpacing:6
     property int tileWidth: (inputPanel.width-2*gridSpacing)/3
     property int tileHeight: (inputPanel.height-3*gridSpacing)/4
     function applyKey(inkey){
+
         if(targetDist!=null){
             if(inkey==="\u232B")
-            {targetDist.remove(targetDist.length-1,targetDist.length)}
-               else if(inkey==="Next"){
+            {targetDist.content.remove(targetDist.content.length-1,targetDist.content.length)}
+
+            else{
+                targetDist.content.text+=inkey
+                if(targetDist.content.acceptableInput===false) {
+                    targetDist.content.remove(targetDist.content.length-1,targetDist.content.length)
+                }
             }
-            else{ targetDist.text+=inkey }
         }
         console.log(inkey)
     }
+    function applyModel(index){
+        if(targetDist!=null){
+            targetDist.index=index
+        }
+    }
 
+    state: "numberial"
+    states: [State {
+            name: "numberial"
+            PropertyChanges {
+                target: numgrid
+                visible:true
+
+            }
+            PropertyChanges {
+                target: sele
+                visible:false
+
+            }
+        },State {
+            name: "selection"
+            PropertyChanges {
+                target: numgrid
+                visible:false
+            }
+            PropertyChanges{
+                target: sele
+                visible:true
+            }
+            PropertyChanges{
+                target: inputPanel
+
+            }
+        }]
     transitions: Transition {
         AnchorAnimation {
             duration: 200
@@ -50,8 +89,9 @@ Rectangle{
         columns: 3
         rows:4
         spacing: gridSpacing
+        id:numgrid
         Repeater{
-            model:["1","2","3","4","5","6","7","8","9","Next","0","\u232B"]
+            model:["1","2","3","4","5","6","7","8","9","","0","\u232B"]
             delegate: PanelTile{
                 text: modelData.toString()
                 onTileClicked: {
@@ -61,11 +101,25 @@ Rectangle{
                 }
             }
         }
-
-
-
     }
+    Column{
+        id:sele
+        spacing: gridSpacing
+        Repeater{
+            model: (targetDist.types==="selection")?targetDist.model:undefined
+            delegate: PanelTile{
+                width: (inputPanel.width-2*gridSpacing)
+                height: (inputPanel.height-3*gridSpacing)/4
 
+                text: modelData.toString()
+                onTileClicked: {
+                    applyModel(index)
+                }
+            }
+
+
+        }
+    }
 
     onXChanged: {
         setBlurPosition()

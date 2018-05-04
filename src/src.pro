@@ -1,4 +1,4 @@
-QT += quick qml
+QT += quick qml svg
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -17,37 +17,15 @@ SOURCES += main.cpp \
     settings.cpp \
     svgedit.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += \
+    qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH = $$OUT_PWD/../fluid/qml
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
 
 # Default rules for deployment.
-
-android {
-    # Bundle Fluid QML plugins with the application
-    ANDROID_EXTRA_PLUGINS = $$OUT_PWD/../fluid/qml
-
-    # Android package sources
-    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-}
-
-macx {
-    # Bundle Fluid QML plugins with the application
-    APP_QML_FILES.files = $$OUT_PWD/../fluid/qml/Fluid
-    APP_QML_FILES.path = Contents/MacOS
-    QMAKE_BUNDLE_DATA += APP_QML_FILES
-}
-
-win32 {
-    WINDEPLOYQT_OPTIONS = -qmldir $$OUT_PWD/../fluid/qml/Fluid
-}
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
     translation.ts

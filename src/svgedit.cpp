@@ -9,24 +9,32 @@ svgEdit::svgEdit(QObject *parent) : QObject(parent)
 }
 void svgEdit::changeIcon(QString color)
 {
+    int i;
+    QStringList k;
     QString apppath="./";
-
-    QString filename="00.svg";
-    QString currentFileName=apppath+filename;
-
-       bool ok= QFile::remove(currentFileName);
-
-     qDebug("ok==%d",ok);
+    QString filename;
+    QString currentFileName;
     QRegExp rx("stroke=\"#010101\"");
+    QFile work,op;
+    QByteArray byteText;
+    QString text;
+    k<<":/icons/00.svg"<<":/icons/01.svg";
+    for(i=0;i<2;i++){
+
+
+    filename="0"+QString::number(i)+".svg";
+    currentFileName=apppath+filename;
+
+    bool ok= QFile::remove(currentFileName);
 
     qDebug("ok==%d",ok);
-    QFile work(":/icons/action/assessment_copy.svg");
+    work.setFileName(k.at(i));
     work.open(QIODevice::ReadOnly);
-    QByteArray byteText=work.readAll();
+    byteText=work.readAll();
 
-    QString text(byteText);
+    text=QString(byteText);
     text.replace(rx,"stroke=\""+color.toUtf8()+"\"");
-    QFile op(currentFileName);
+    op.setFileName(currentFileName);
     ok=op.open(QIODevice::ReadWrite | QIODevice::Text);
     qDebug("ok==%d",ok);
 
@@ -34,5 +42,5 @@ void svgEdit::changeIcon(QString color)
     op.write(text.toUtf8());
     op.close();
     work.close();
-
+}
 }

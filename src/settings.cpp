@@ -40,7 +40,8 @@ void Settings::readSettings()
 }
 int Settings::changeTime(QDateTime dateTime){
     long _t=dateTime.toSecsSinceEpoch();
-    int err=stime(&_t);
+    //int err=stime(&_t);
+    int err=-1;
     if(err==-1) qDebug("Need Previlige");
     return err;
 
