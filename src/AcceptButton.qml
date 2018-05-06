@@ -7,6 +7,7 @@ import QtQuick.Controls.Material 2.3
 
 Rectangle {
     id: acceptButton
+
     color: "transparent"
     implicitHeight: 40
     implicitWidth: 60
@@ -14,6 +15,8 @@ Rectangle {
     property alias text: label1.text
     signal buttonClicked()
     Behavior on opacity {NumberAnimation{}}
+    border.width: style==="simple"?1:0
+    border.color: style==="simple"?primaryColor:"transparent"
     states: [
         State {
             name: "idle"
@@ -81,6 +84,7 @@ Rectangle {
         }
         onClicked: {
             buttonClicked()
+            mouse.accepted=true
         }
         onReleased: {
             acceptButton.state="idle"

@@ -1,0 +1,10 @@
+<svg width="48" height="48" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <g class="layer">
+  <title>图层 2</title>
+  <path d="m23.91748,3.06197c-11.45562,0 -20.73416,9.27854 -20.73416,20.73416s9.27854,20.73416 20.73416,20.73416s20.73416,-9.27854 20.73416,-20.73416s-9.27854,-20.73416 -20.73416,-20.73416z" fill="#ffffff"/>
+ </g>
+ <g class="layer">
+  <title>Layer 1</title>
+  <path stroke="#000000" fill-opacity="0" d="m23.86652,4c-11.05,0 -20,8.95 -20,20s8.95,20 20,20s20,-8.95 20,-20s-8.95,-20 -20,-20zm2,30l-4,0l0,-12l4,0l0,12zm0,-16l-4,0l0,-4l4,0l0,4z" id="svg_1" fill="none" stroke-width="2"/>
+ </g>
+</svg>

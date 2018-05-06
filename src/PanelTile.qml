@@ -14,7 +14,8 @@ Rectangle {
     implicitHeight: 80
     implicitWidth: 80
     opacity: 0.75
-
+    border.width: style==="simple"?1:0
+    border.color: style==="simple"?primaryColor:"transparent"
     MouseArea {
         anchors.fill: parent
         onClicked: {

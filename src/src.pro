@@ -17,6 +17,12 @@ SOURCES += main.cpp \
     settings.cpp \
     svgedit.cpp
 
+lupdate_only{
+  SOURCES = *.qml \
+            *.js \
+            content/*.qml \
+            content/*.js
+  }
 RESOURCES += \
     qml.qrc
 
@@ -26,9 +32,10 @@ RESOURCES += \
 QML_DESIGNER_IMPORT_PATH =
 
 # Default rules for deployment.
-
+TRANSLATIONS = translation.ts
 DISTFILES += \
-    translation.ts
+    translation.ts \
+    FlatButton.qml
 
 HEADERS += \
     initc.h \

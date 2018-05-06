@@ -9,9 +9,12 @@ Rectangle{
     id:inputPanel
     width: parent.width*0.4
     property Item backgI
-    property Item targetDist
+    property Item targetDist:defDist
     property string chars: ""
     clip: true
+    Item{
+        id:defDist
+    }
 
     property int gridSpacing:6
     property int tileWidth: (inputPanel.width-2*gridSpacing)/3
@@ -82,6 +85,7 @@ Rectangle{
         width: source.width
         height: source.height
         radius: 64
+        visible:style==="simple"?false:true
         //transparentBorder :true
     }
     }
@@ -106,7 +110,7 @@ Rectangle{
         id:sele
         spacing: gridSpacing
         Repeater{
-            model: (targetDist.types==="selection")?targetDist.model:undefined
+            model: (targetDist!=defDist&&targetDist.types==="selection")?targetDist.model:undefined
             delegate: PanelTile{
                 width: (inputPanel.width-2*gridSpacing)
                 height: (inputPanel.height-3*gridSpacing)/4

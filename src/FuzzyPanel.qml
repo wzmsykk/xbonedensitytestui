@@ -6,6 +6,7 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
     id:pane
+
     property Item target
     clip: true
     property int titleHeight: pane.height*0.14
@@ -13,7 +14,8 @@ Rectangle {
     property alias titleColor: titleBar.color
     property alias titleText: titleText
     signal panelClicked()
-
+    border.width: style==="simple"?1:0
+    border.color: style==="simple"?primaryColor:"transparent"
     state:"normal"
 
 
@@ -43,6 +45,7 @@ Rectangle {
         width: source.width
         height: source.height
         radius: 64
+        visible: style==="simple"?false:true
         //transparentBorder :true
     }
     }
@@ -62,7 +65,7 @@ Rectangle {
         Text {
 
             id: titleText
-            color: "#ffffff"
+            color: style==="simple"?"#000000":"#ffffff"
             text: "MyText"
             anchors.left: parent.left
             font.bold: false

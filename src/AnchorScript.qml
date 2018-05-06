@@ -18,17 +18,24 @@ Item {
         State {
             name: "normal"
             extend: ""
+
             AnchorChanges {
                 target: inputPanel
                 anchors.right: undefined
                 anchors.left: parent.right
             }
+
+
             StateChangeScript {
                 script: {
                     acceptButton.state = "invisible"
                     cancelButton.state = "invisible"
                     inputPanel.state = "hide"
                     lefttopContentArea.state="01"
+                    lefttopShowAction.enabled=true
+                    acceptAction00.enabled=false
+                    backAction00.enabled=false
+                    console.log("stateNorm")
                 }
             }
         },
@@ -39,6 +46,10 @@ Item {
                 script: {
                     lefttopInputPanelShowAction.enabled = true
                     backAction00.enabled = true
+                    acceptAction00.enabled=true
+                    ltchildSeq.seq[0].forceFocus()
+                    acceptButton.text="Next"
+                    console.log("ltshow")
                 }
             }
 
@@ -94,7 +105,9 @@ Item {
             PropertyChanges {
                 target: lefttopContentArea
                 state:"02"
+
             }
+
         },
         State {
             name: "lefttopInput"
@@ -107,6 +120,8 @@ Item {
             }
             AnchorChanges {
                 target: lefttop
+                anchors.top:parent.top
+                anchors.left: parent.left
                 anchors.right: inputPanel.left
                 anchors.bottom: toolbar.top
             }
@@ -118,11 +133,36 @@ Item {
             }
         },
         State {
+            name: "work"
+            extend: "lefttopshow"
+            StateChangeScript{
+                script: {
+                    backAction00.enabled=false
+                    acceptAction00.enabled=false
+                    backAction00_w.enabled=true
+                    acceptAction00_w.enabled=true
+                }
+            }
+
+            AnchorChanges{
+                target: lefttop
+                anchors.left: undefined
+                anchors.top: parent.top
+                anchors.bottom: toolbar.top
+                anchors.right: parent.left
+            }
+            PropertyChanges{
+                target: workPage
+                state:"show"
+            }
+        },
+        State {
             name: "leftbottomshow"
             extend: "normal"
             StateChangeScript {
                 script: {
                     backAction10.enabled = true
+                    acceptAction10.enabled=true
                 }
             }
 
@@ -237,8 +277,11 @@ Item {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: toolbar.top
-
                 anchors.right: parent.right
+            }
+            PropertyChanges{
+                target: righttopContentArea
+                state:"02"
             }
 
         },
@@ -297,6 +340,11 @@ Item {
                 anchors.bottom: toolbar.top
                 anchors.right: parent.right
             }
+            PropertyChanges {
+                target: rightbottomContentArea
+                state:"02"
+
+            }
         }
     ]
     Connections {
@@ -304,9 +352,7 @@ Item {
         target: cancelButton
         enabled: false
         onButtonClicked: {
-            anchorScript.state = "normal"
-            lefttopShowAction.enabled = true
-            backAction00.enabled = false
+            ltchildSeq.previous(ltchildSeq.activeIndex)
         }
     }
     Connections {
@@ -314,24 +360,42 @@ Item {
         target: acceptButton
         enabled: false
         onButtonClicked: {
-
+            ltchildSeq.next(ltchildSeq.activeIndex);
         }
     }
     Connections {
-        id: backAction10
+        id: backAction00_w
         target: cancelButton
         enabled: false
         onButtonClicked: {
-            anchorScript.state = "normal"
-            leftbottomShowAction.enabled = true
+
+            //dosth to stop test
+            anchorScript.state="leftopshow"
+            anchorScript.state="normal"
+
+            workPage.state="hide"
+            backAction00_w=enabled=false
+            acceptAction00_w.enabled=false
         }
     }
+    Connections {
+        id: acceptAction00_w
+        target: acceptButton
+        enabled: false
+        onButtonClicked: {
+            //do sth to start ScanProgress
+            acceptAction00_w.enabled=false
+            backAction00_w=enabled=false
+        }
+    }
+
     Connections {
         id: backAction01
         target: cancelButton
         enabled: false
         onButtonClicked: {
             anchorScript.state = "normal"
+            backAction01.enabled=false
             righttopShowAction.enabled = true
         }
     }
@@ -341,7 +405,30 @@ Item {
         enabled: false
         onButtonClicked: {
             anchorScript.state = "normal"
+            acceptAction01.enabled=false
             righttopShowAction.enabled = true
+        }
+    }
+    Connections {
+        id: acceptAction10
+        target: acceptButton
+        enabled: false
+        onButtonClicked: {
+            anchorScript.state = "normal"
+            acceptAction10.enabled=false
+            backAction10.enabled=false
+            leftbottomShowAction.enabled = true
+        }
+    }
+    Connections {
+        id: backAction10
+        target: cancelButton
+        enabled: false
+        onButtonClicked: {
+            anchorScript.state = "normal"
+            backAction10.enabled=false
+            acceptAction10.enabled=false
+            leftbottomShowAction.enabled = true
         }
     }
     Connections {
@@ -350,6 +437,8 @@ Item {
         enabled: false
         onButtonClicked: {
             anchorScript.state = "normal"
+            acceptAction11.enabled=false
+            backAction11.enabled=false
             rightbottomShowAction.enabled = true
         }
     }
@@ -359,6 +448,8 @@ Item {
         enabled: false
         onButtonClicked: {
             anchorScript.state = "normal"
+            acceptAction11.enabled=false
+            backAction11.enabled=false
             rightbottomShowAction.enabled = true
         }
     }

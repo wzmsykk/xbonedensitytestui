@@ -30,5 +30,9 @@
         <file>icons/00.svg</file>
         <file>icons/01.svg</file>
         <file>FlatSelection.qml</file>
+        <file>icons/03.svg</file>
+        <file>icons/02.svg</file>
+        <file>FlatSpinBox.qml</file>
+        <file>FlatButton.qml</file>
     </qresource>
 </RCC>

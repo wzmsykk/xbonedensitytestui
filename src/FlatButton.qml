@@ -4,28 +4,27 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.3
 Rectangle{
-    id: rectangle
-
-    property alias content: ftf
+    id: ftb
+    property alias content: ftb
     property alias title: label.text
     property string types: "text"
-    property var model: [ftf.text]
+    property var model: [ftb.text]
     property int index: 0
     signal focused()
     implicitWidth: 200
     implicitHeight: 100
     border.width: style==="simple"?1:0
     border.color: style==="simple"?primaryColor:"transparent"
-    opacity: style==="simple"?(ftf.activeFocus?"1":"0.8"):(ftf.activeFocus?"0.6":"0.4")
+    opacity: style==="simple"?(ftb.activeFocus?"1":"0.8"):(ftb.activeFocus?"0.6":"0.4")
     function forceFocus(){
-        ftf.forceActiveFocus()
+        ftb.forceActiveFocus()
 
     }
 
     MouseArea{
         anchors.fill: parent
         onClicked: {
-            ftf.focus=true
+            ftb.focus=true
             mouse.accepted=true
         }
     }
@@ -46,33 +45,6 @@ Rectangle{
         fontSizeMode: Text.Fit
     }
 
-    TextField{
 
-        id:ftf
-        height: parent.height*0.4
-        font.pixelSize: 40
-        color: primaryColor
-        horizontalAlignment: Text.AlignHCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        cursorVisible: false
-        onActiveFocusChanged: {
-            if(ftf.activeFocus===true)
-                focused()
-        }
-
-        background: Rectangle {
-            implicitWidth: 200
-            implicitHeight: 40
-            border.color: "transparent"
-            color: "transparent"
-
-
-        }
-        validator: IntValidator{
-            bottom: 0
-            top:99
-        }
-
-    }
 }
 }
