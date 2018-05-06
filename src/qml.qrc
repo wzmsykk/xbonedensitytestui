@@ -34,5 +34,7 @@
         <file>icons/02.svg</file>
         <file>FlatSpinBox.qml</file>
         <file>FlatButton.qml</file>
+        <file>PatientSet.qml</file>
+        <file>WorkPage.qml</file>
     </qresource>
 </RCC>

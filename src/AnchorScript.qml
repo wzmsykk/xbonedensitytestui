@@ -8,10 +8,7 @@ import QtQuick.Controls.Material 2.3
 Item {
     id: anchorScript
     transitions: Transition {
-        AnchorAnimation {
-            duration: 200
-            easing.type: Easing.InOutQuad
-        }
+        AnchorAnimation{duration: 200}
     }
     state: "normal"
     states: [
@@ -33,8 +30,9 @@ Item {
                     inputPanel.state = "hide"
                     lefttopContentArea.state="01"
                     lefttopShowAction.enabled=true
-                    acceptAction00.enabled=false
-                    backAction00.enabled=false
+                    leftbottomShowAction.enabled=true
+                    righttopShowAction.enabled=true
+                    rightbottomShowAction.enabled=true
                     console.log("stateNorm")
                 }
             }
@@ -44,14 +42,16 @@ Item {
             extend: "normal"
             StateChangeScript {
                 script: {
-                    lefttopInputPanelShowAction.enabled = true
-                    backAction00.enabled = true
-                    acceptAction00.enabled=true
-                    ltchildSeq.seq[0].forceFocus()
+                    //lefttopInputPanelShowAction.enabled = true
+
+
+                    //ltchildSeq.seq[0].forceFocus()
                     acceptButton.text="Next"
                     console.log("ltshow")
                 }
             }
+
+
 
             AnchorChanges {
                 target: lefttop.titleText
@@ -112,6 +112,15 @@ Item {
         State {
             name: "lefttopInput"
             extend: "lefttopshow"
+            StateChangeScript{
+                script: {
+
+                    console.log("ltinp")
+                }
+            }
+
+
+
             AnchorChanges {
                 target: inputPanel
                 anchors.left: undefined
@@ -126,35 +135,12 @@ Item {
                 anchors.bottom: toolbar.top
             }
 
-            PropertyChanges {
-                target: inputPanel
-                targetDist: text1
-                state:"show"
-            }
+
         },
         State {
             name: "work"
             extend: "lefttopshow"
-            StateChangeScript{
-                script: {
-                    backAction00.enabled=false
-                    acceptAction00.enabled=false
-                    backAction00_w.enabled=true
-                    acceptAction00_w.enabled=true
-                }
-            }
 
-            AnchorChanges{
-                target: lefttop
-                anchors.left: undefined
-                anchors.top: parent.top
-                anchors.bottom: toolbar.top
-                anchors.right: parent.left
-            }
-            PropertyChanges{
-                target: workPage
-                state:"show"
-            }
         },
         State {
             name: "leftbottomshow"
@@ -347,47 +333,8 @@ Item {
             }
         }
     ]
-    Connections {
-        id: backAction00
-        target: cancelButton
-        enabled: false
-        onButtonClicked: {
-            ltchildSeq.previous(ltchildSeq.activeIndex)
-        }
-    }
-    Connections {
-        id: acceptAction00
-        target: acceptButton
-        enabled: false
-        onButtonClicked: {
-            ltchildSeq.next(ltchildSeq.activeIndex);
-        }
-    }
-    Connections {
-        id: backAction00_w
-        target: cancelButton
-        enabled: false
-        onButtonClicked: {
 
-            //dosth to stop test
-            anchorScript.state="leftopshow"
-            anchorScript.state="normal"
 
-            workPage.state="hide"
-            backAction00_w=enabled=false
-            acceptAction00_w.enabled=false
-        }
-    }
-    Connections {
-        id: acceptAction00_w
-        target: acceptButton
-        enabled: false
-        onButtonClicked: {
-            //do sth to start ScanProgress
-            acceptAction00_w.enabled=false
-            backAction00_w=enabled=false
-        }
-    }
 
     Connections {
         id: backAction01
@@ -458,8 +405,9 @@ Item {
         target: lefttop
         enabled: true
         onPanelClicked: {
-            anchorScript.state = "lefttopshow"
+            anchorScript.state="lefttopshow"
             anchorScript.state = "lefttopInput"
+
             lefttopShowAction.enabled = false
             //lefttopInputPanelShowAction = true
         }

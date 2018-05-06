@@ -12,6 +12,10 @@ Rectangle{
     property Item targetDist:defDist
     property string chars: ""
     clip: true
+    function setDefaultDist(){
+        inputPanel.targetDist=defDist
+    }
+
     Item{
         id:defDist
     }

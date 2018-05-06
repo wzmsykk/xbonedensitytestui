@@ -17,38 +17,11 @@ ApplicationWindow {
     property int vMargin: 10
     property int hMargin: 10
     property int toolBarHeight: 0.14 * root.height
-    property string style:"simple"
+    property string style:"simplex"
     property string primaryColor:style==="simple"?"#000000":"#ffffff"
     property var infoSet: []
-    Scan{
-        id:scan
 
-        onHandleScanPreperationResults:{
-                if(result===1){
-                    wplb.text="prepared"
-                    scan.operateScan()
-        }
-        }
-        onHandleScanResults: {
-            if(result===1){
-                wplb.text="scanFinished"
-            }
-            else if(result===2)
-            {
-                wplb.text="doing sth"
-            }
-            else if(result===3)
-            {
-                wplb.text="allfinished"
 
-            }else if(result===4){
-                anchorScript.state="lefttopshow"
-                anchorScript.state="normal"
-                anchorScript.state="leftbottomshow"
-            }
-        }
-
-    }
 
     AnchorScript {
         id: anchorScript
@@ -95,12 +68,17 @@ ApplicationWindow {
     }
     Loader{
         id:modalPopupLoader
-        width: parent.width
+        width: parent.width-2*hMargin
         anchors.top: parent.top
         anchors.bottom: toolbar.top
-        anchors.left: parent.right
-        anchors.right: undefined
+        anchors.right: parent.right
+        anchors.left: undefined
+        anchors.leftMargin: hMargin
+        anchors.topMargin: vMargin
+        anchors.bottomMargin: hMargin
+        anchors.rightMargin: vMargin
         source: ""
+        z:6
         transitions: Transition {
            AnchorAnimation{
                duration: 200
@@ -118,13 +96,17 @@ ApplicationWindow {
                 target: modalPopupLoader
                 opacity:0
             }
+            AnchorChanges {
+                target: modalPopupLoader
+                anchors.left:undefined
+                anchors.right:  parent.right
+            }
         },State {
             name: "show"
             AnchorChanges {
                 target: modalPopupLoader
-                anchors.left: undefined
-                anchors.right: parent.right
-
+                anchors.left: parent.left
+                anchors.right: undefined
             }
             PropertyChanges{
                 target: modalPopupLoader
@@ -135,15 +117,47 @@ ApplicationWindow {
             target: modalPopupLoader.item
             onCanceled:{
                 modalPopupLoader.state="hide"
+                modalPopupLoader.source=""
             }
             onAccepted:{
                  modalPopupLoader.state="hide"
+                anchorScript.state="leftbottomshow"
+                modalPopupLoader.source=""
             }
         }
 
     }
     Loader{
         id:pageContent
+
+        anchors.top: parent.top
+        anchors.bottom: toolbar.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: hMargin
+        anchors.topMargin: vMargin
+        anchors.bottomMargin: hMargin
+        anchors.rightMargin: vMargin
+
+        source: ""
+
+        Behavior on opacity {
+            NumberAnimation{}
+        }
+        z:1
+
+        Connections{
+            target: pageContent.item
+            onAccepted:{
+                modalPopupLoader.source="WorkPage.qml"
+                modalPopupLoader.state="show"
+            }
+            onCanceled:{
+                pageContent.state="hide"
+                pageContent.setSource("")
+            }
+        }
+
     }
 
     Item {
@@ -205,61 +219,6 @@ ApplicationWindow {
             height: parent.height * 0.85
         }
     }
-    FuzzyPanel {
-        id: workPage
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.left
-        anchors.leftMargin: hMargin
-        anchors.topMargin: vMargin
-        anchors.bottomMargin: hMargin
-        anchors.rightMargin: vMargin
-        target: backGImage
-
-        state: "hide"
-        states: [
-            State {
-                name: "hide"
-                AnchorChanges {
-                    target: workPage
-                    anchors.top: parent.top
-                    anchors.left: parent.right
-                    anchors.bottom: toolbar.top
-                    anchors.right: undefined
-                }
-                PropertyChanges {
-                    target: workPage
-                    width: parent.width
-                    visible: false
-                }
-            },
-            State {
-                name: "show"
-                PropertyChanges {
-                    target: workPage
-                    width: undefined
-                    visible: true
-                }
-                AnchorChanges {
-                    target: workPage
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.bottom: toolbar.top
-                }
-
-            }
-        ]
-
-        Text {
-            id:wplb
-            color: primaryColor
-            text: "Start"
-            anchors.verticalCenter: parent.verticalCenter
-            fontSizeMode: Text.Fit
-            font.pixelSize: 72
-        }
-    }
 
     FuzzyPanel {
         id: lefttop
@@ -288,13 +247,21 @@ ApplicationWindow {
             states: [
                 State {
                     name: "01"
+                    PropertyChanges{
+                        target: lt02
+                        opacity:0
+                        source: ""
+                    }
+
                 },
                 State {
                     name: "02"
-                    PropertyChanges {
+                    PropertyChanges{
                         target: lt02
-                        visible: true
+                        opacity:1
+                        source: "PatientSet.qml"
                     }
+
                     PropertyChanges {
                         target: lt01
                         opacity: 0
@@ -323,123 +290,12 @@ ApplicationWindow {
                     font.pixelSize: 72
                 }
             }
+         Loader{
+             id:lt02
+             anchors.fill: parent
+             opacity: 0
+         }
 
-            Column {
-                id: lt02
-                anchors.fill: parent
-                anchors.margins: 20
-
-                visible: false
-                spacing: 6
-                Label {
-                    text: qsTr("Info")
-                }
-
-                FlatTextField {
-                    id: text1
-                    title: qsTr("Op ID")
-                    enabled: true
-                    focus: true
-                    width: parent.width
-                    height: (parent.height - parent.rowSpacing * 3) / 2
-                    onFocused: {
-                        inputPanel.targetDist = text1
-                        inputPanel.state = "numberial"
-                        ltchildSeq.activeIndex=0
-
-                    }
-                }
-                FlatTextField {
-                    id: text2
-                    title: qsTr("Patient Age")
-                    enabled: true
-                    width: parent.width
-                    height: (parent.height - parent.rowSpacing * 3) / 2
-                    onFocused: {
-                        inputPanel.targetDist = text2
-                        inputPanel.state = "numberial"
-                        ltchildSeq.activeIndex=1
-                    }
-                }
-                Row {
-                    spacing: 6
-                    width: text2.width
-                    height: text2.height
-                    FlatSelection {
-                        id: u3
-                        width: parent.width/2-3
-                        height: parent.height
-                        title: qsTr("Gender")
-                        model: [qsTr("male"), qsTr("female")]
-                        onFocused: {
-                            inputPanel.targetDist = u3
-                            inputPanel.state = "selection"
-                            ltchildSeq.activeIndex=2
-                        }
-                    }
-                    FlatSelection {
-                        id: u4
-                        width: parent.width/2-3
-                        height: parent.height
-                        title: qsTr("Race")
-                        model: [qsTr("Css"), qsTr("Asian"), qsTr("Others")]
-                        onFocused: {
-                            inputPanel.targetDist = u4
-                            inputPanel.state = "selection"
-
-                            ltchildSeq.activeIndex=3
-                        }
-                    }
-                }
-                Item{
-                    id:ltchildSeq
-                    property var seq: [text1,text2,u3,u4]
-                    property int activeIndex: 0
-                    onActiveIndexChanged: {
-                            if(activeIndex===seq.length-1)
-                            {acceptButton.text=qsTr("Commit")
-                            cancelButton.text=qsTr("Previous")}
-                            else if(activeIndex===0){
-                                acceptButton.text=qsTr("Next")
-                                cancelButton.text=qsTr("Cancel")
-                            }else{cancelButton.text=qsTr("Previous")
-                            acceptButton.text=qsTr("Next")}
-                    }
-
-                    function next(index){
-                        if(index<seq.length-1){
-                            seq[index+1].forceFocus()
-                             activeIndex=index+1
-                            console.log(activeIndex)}
-                        else commit()
-                    }
-                    function previous(index){
-                        if(index===0){
-                            activeIndex=0
-                            cancelButton.text=qsTr("Cancel")
-
-                            anchorScript.state="normal"
-
-                        }else{
-                            seq[index-1].forceFocus()
-                           activeIndex=index-1
-
-                        }
-                        console.log(activeIndex)
-                    }
-
-                    function commit()
-                    {
-                        for(var i=0;i<seq.length;i++){
-                        infoSet[0]=seq[0].model[seq[0].index]}
-                        anchorScript.state="lefttopshow"
-                        anchorScript.state="work"
-                        activeIndex=0
-                        scan.prepareScan()
-
-                        }
-                }
-            }
         }
     }
     FuzzyPanel {
@@ -677,6 +533,7 @@ ApplicationWindow {
                     target: rb01
                     opacity: 0
                 }
+
             }
         ]
 

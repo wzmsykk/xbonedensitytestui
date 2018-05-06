@@ -34,8 +34,7 @@ QML_DESIGNER_IMPORT_PATH =
 # Default rules for deployment.
 TRANSLATIONS = translation.ts
 DISTFILES += \
-    translation.ts \
-    FlatButton.qml
+    translation.ts
 
 HEADERS += \
     initc.h \
