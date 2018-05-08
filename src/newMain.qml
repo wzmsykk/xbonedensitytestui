@@ -17,9 +17,12 @@ ApplicationWindow {
     property int vMargin: 10
     property int hMargin: 10
     property int toolBarHeight: 0.14 * root.height
-    property string style:"simplex"
+    property string style:"simple"
     property string primaryColor:style==="simple"?"#000000":"#ffffff"
-    property var infoSet: []
+    property var infoSet: [-1,-1,0,0]
+    property var currInfo:[]
+    property var defaultInfoSet: [-1,-1,0,0]
+    property var printSet: [1,0,0]
 
 
 
@@ -62,102 +65,18 @@ ApplicationWindow {
             onInitAllSucceed: {
                 ld.enabled = false
                 ld.visible = false
-                showui()
+
             }
         }
     }
-    Loader{
-        id:modalPopupLoader
-        width: parent.width-2*hMargin
-        anchors.top: parent.top
+    PopupLoader {
+        id: popupLoader
         anchors.bottom: toolbar.top
-        anchors.right: parent.right
         anchors.left: undefined
-        anchors.leftMargin: hMargin
-        anchors.topMargin: vMargin
-        anchors.bottomMargin: hMargin
-        anchors.rightMargin: vMargin
-        source: ""
-        z:6
-        transitions: Transition {
-           AnchorAnimation{
-               duration: 200
-               easing.type: Easing.InOutQuad
-           }
-        }
-        Behavior on opacity {
-            NumberAnimation{}
-        }
-
-        state:"hide"
-        states: [State {
-            name: "hide"
-            PropertyChanges{
-                target: modalPopupLoader
-                opacity:0
-            }
-            AnchorChanges {
-                target: modalPopupLoader
-                anchors.left:undefined
-                anchors.right:  parent.right
-            }
-        },State {
-            name: "show"
-            AnchorChanges {
-                target: modalPopupLoader
-                anchors.left: parent.left
-                anchors.right: undefined
-            }
-            PropertyChanges{
-                target: modalPopupLoader
-                opacity:1
-            }
-        }]
-        Connections{
-            target: modalPopupLoader.item
-            onCanceled:{
-                modalPopupLoader.state="hide"
-                modalPopupLoader.source=""
-            }
-            onAccepted:{
-                 modalPopupLoader.state="hide"
-                anchorScript.state="leftbottomshow"
-                modalPopupLoader.source=""
-            }
-        }
-
-    }
-    Loader{
-        id:pageContent
-
-        anchors.top: parent.top
-        anchors.bottom: toolbar.top
-        anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: hMargin
-        anchors.topMargin: vMargin
-        anchors.bottomMargin: hMargin
-        anchors.rightMargin: vMargin
-
+        anchors.top: parent.top
         source: ""
-
-        Behavior on opacity {
-            NumberAnimation{}
-        }
-        z:1
-
-        Connections{
-            target: pageContent.item
-            onAccepted:{
-                modalPopupLoader.source="WorkPage.qml"
-                modalPopupLoader.state="show"
-            }
-            onCanceled:{
-                pageContent.state="hide"
-                pageContent.setSource("")
-            }
-        }
-
+        z: 6
     }
 
     Item {
@@ -173,6 +92,7 @@ ApplicationWindow {
         anchors.left: parent.left
         anchors.right: undefined
         backgI: backGImage
+        z:7
     }
 
     Rectangle {
@@ -197,7 +117,16 @@ ApplicationWindow {
             minimumPixelSize: 10
             font.pixelSize: 72
         }
-
+        CancelButton {
+            id: thirdButton
+            anchors.bottom: parent.bottom
+            anchors.margins: 8
+            anchors.right: acceptButton.left
+            anchors.rightMargin: vMargin
+            anchors.top: parent.top
+            height: parent.height * 0.85
+            width: parent.width * 0.22
+        }
         CancelButton {
             id: cancelButton
             anchors.bottom: parent.bottom
@@ -250,7 +179,12 @@ ApplicationWindow {
                     PropertyChanges{
                         target: lt02
                         opacity:0
-                        source: ""
+                        visible:false
+                        source:""
+
+                    }
+                    StateChangeScript{
+                        script: lt02a.enabled=false
                     }
 
                 },
@@ -259,12 +193,19 @@ ApplicationWindow {
                     PropertyChanges{
                         target: lt02
                         opacity:1
-                        source: "PatientSet.qml"
+                        visible:true
                     }
 
                     PropertyChanges {
                         target: lt01
                         opacity: 0
+                    }
+                    PropertyChanges{
+                        target: lt02
+                        source:"PatientSet.qml"
+                    }
+                    StateChangeScript{
+                        script: lt02a.enabled=true
                     }
                 }
             ]
@@ -294,6 +235,40 @@ ApplicationWindow {
              id:lt02
              anchors.fill: parent
              opacity: 0
+             source: ""
+             Connections{
+                 id:lt02a
+                 target: lt02.item
+                 enabled:false
+                 onAccepted:{
+                     currInfo=infoSet
+                     popupLoader.source="WorkPage.qml"
+                     popupLoader.state="show"
+                     inputPanel.state="hide"
+                     waitScanResult.enabled=true
+                 }
+                 onCanceled:{
+                     anchorScript.state="normal"
+                 }
+             }
+
+             Connections{
+                 id:waitScanResult
+                 enabled:false
+                 target: popupLoader.item
+                 ignoreUnknownSignals: true
+                 onCanceled:{
+                     popupLoader.state="hide"
+                     popupLoader.setSource("")
+                     lt02.item.recoverStates()
+                     waitScanResult.enabled=false
+                 }
+                 onAccepted:{
+                      waitScanResult.enabled=false
+                     anchorScript.state="leftbottomshow"
+                 }
+             }
+
          }
 
         }
@@ -324,16 +299,25 @@ ApplicationWindow {
             states: [
                 State {
                     name: "01"
+                    PropertyChanges {
+                        target: lb02
+                        visible: false
+                        opacity:0
+                          source:""
+                    }
                 },
                 State {
                     name: "02"
                     PropertyChanges {
                         target: lb02
                         visible: true
+                        opacity:1
+                          source:"ResultPage.qml"
                     }
                     PropertyChanges {
                         target: lb01
                         opacity: 0
+
                     }
                 }
             ]
@@ -356,29 +340,17 @@ ApplicationWindow {
                     text: "Results"
                     width: parent.width - img00.width
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family: "Tahoma"
+
                     fontSizeMode: Text.Fit
                     font.pixelSize: 72
                     color: primaryColor
                 }
             }
 
-            Grid {
+            Loader {
                 id: lb02
-                columns: 3
                 visible: false
                 anchors.fill: parent
-                spacing: 6
-                padding: 6
-                Image {
-                    id: boneImage
-                    source: "/pic/tmp.jpg"
-                    width: parent.width / 2-6
-                    height: parent.height-12
-                }
-                Label{
-                    text: qsTr("Result here")
-                }
             }
         }
     }
@@ -396,6 +368,7 @@ ApplicationWindow {
         titleHeight: 45
         titleColor: "#03A9F4"
         target: backGImage
+
         Rectangle {
             id: righttopContentArea
             anchors.top: righttop.titleBar.bottom
@@ -408,12 +381,20 @@ ApplicationWindow {
         states: [
             State {
                 name: "01"
+                PropertyChanges {
+                    target: rt02
+                    visible: false
+                    source:""
+                    opacity:0
+                }
             },
             State {
                 name: "02"
                 PropertyChanges {
                     target: rt02
                     visible: true
+                    source:"SettingPage.qml"
+                    opacity:1
                 }
                 PropertyChanges {
                     target: rt01
@@ -444,55 +425,20 @@ ApplicationWindow {
                 font.pixelSize: 72
             }
         }
-        Grid{
-
-            visible: false
-            id:rt02
+        Loader {
+            id: rt02
             anchors.fill: parent
-            columns: 2
-            rows:3
-            spacing: 6
-            padding: 6
-            /*FlatSpinBox {
-                id:sp
-                model: [1,2,3,4,5,6,7,8,9,10]
-                width: (parent.width-3*rt02.spacing)/rt02.columns
-                height: (parent.height-5*rt02.spacing)/rt02.rows
-                title: qsTr("Print Copied")
+            visible: false
+            opacity: 0
+            source: ""
+            Behavior on opacity {NumberAnimation{}}
+            Connections{
+                target: rt02.item
+                ignoreUnknownSignals: true
+                onAccepted:{
+                    anchorScript.state="normal"
+                }
             }
-            FlatSpinBox{
-                id:sp2
-                model: ["colored","grey"]
-                width: (parent.width-3*rt02.spacing)/rt02.columns
-                height: (parent.height-5*rt02.spacing)/rt02.rows
-                title: qsTr("Print Color")
-            }*/
-            FlatButton {
-                width: (parent.width-3*rt02.spacing)/rt02.columns
-                height: (parent.height-5*rt02.spacing)/rt02.rows
-                title: qsTr("Print Settings")
-            }
-            FlatButton {
-                width: (parent.width-3*rt02.spacing)/rt02.columns
-                height: (parent.height-5*rt02.spacing)/rt02.rows
-                title: qsTr("Time Settings")
-            }
-            FlatButton{
-                width: (parent.width-3*rt02.spacing)/rt02.columns
-                height: (parent.height-5*rt02.spacing)/rt02.rows
-                title: qsTr("Default Info Settings")
-            }
-            FlatButton{
-                width: (parent.width-3*rt02.spacing)/rt02.columns
-                height: (parent.height-5*rt02.spacing)/rt02.rows
-                title: qsTr("Password Settings")
-            }
-            FlatButton{
-                width: (parent.width-3*rt02.spacing)/rt02.columns
-                height: (parent.height-5*rt02.spacing)/rt02.rows
-                title: qsTr("Other Settings")
-            }
-
         }
         }
     }

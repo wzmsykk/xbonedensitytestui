@@ -19,7 +19,7 @@ Rectangle{
         spinBox.forceActiveFocus()
         focused()
     }
-    opacity:  style==="simple"?(u3.activeFocus?"1.0":"0.8"):(u3.activeFocus?"0.6":"0.4")
+    opacity:  style==="simple"?(spinBox.activeFocus?"1.0":"0.8"):(spinBox.activeFocus?"0.6":"0.4")
 
 
     ColumnLayout{

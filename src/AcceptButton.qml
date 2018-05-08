@@ -7,13 +7,23 @@ import QtQuick.Controls.Material 2.3
 
 Rectangle {
     id: acceptButton
-
+    property var bText
     color: "transparent"
     implicitHeight: 40
     implicitWidth: 60
     state: "invisible"
     property alias text: label1.text
     signal buttonClicked()
+    property var stack: []
+    function pushText(intext){
+        stack.push(intext)
+        text=stack[stack.length-1]
+    }
+   function poptText(){
+       stack.pop()
+       text=stack[stack.length-1]
+   }
+
     Behavior on opacity {NumberAnimation{}}
     border.width: style==="simple"?1:0
     border.color: style==="simple"?primaryColor:"transparent"
@@ -60,7 +70,7 @@ Rectangle {
     Rectangle{
         id:backtangle
         anchors.fill: parent
-        color: "#607D8B"
+        color: parent.enabled?"#607D8B":"grey"
         opacity: 0.8
     }
     Label{

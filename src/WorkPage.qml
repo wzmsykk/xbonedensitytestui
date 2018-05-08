@@ -9,15 +9,16 @@ FuzzyPanel {
     anchors.fill: parent
     target: backGImage
 
-    signal canceled
-    signal accepted
+    signal canceled()
+    signal accepted()
     Scan {
         id: scan
 
         onHandleScanPreperationResults: {
             if (result === 1) {
                 wplb.text = "prepared"
-                scan.operateScan()
+                acceptButton.text="Scan"
+                acceptAction00_w.enabled=true
             }
         }
         onHandleScanResults: {
@@ -26,10 +27,12 @@ FuzzyPanel {
             } else if (result === 2) {
                 wplb.text = "doing sth"
             } else if (result === 3) {
-                wplb.text = "allfinished"
-            } else if (result === 4) {
+                wplb.text = "allfinished,press Next to show result"
 
-                accepted()
+            } else if (result === 4) {
+                acceptAction01_w.enabled=true
+                 acceptButton.text="Next"
+
             }
         }
     }
@@ -50,8 +53,6 @@ FuzzyPanel {
 
             //dosth to stop test
             canceled()
-
-            modalPopupLoader.state = "hide"
             backAction00_w = enabled = false
             acceptAction00_w.enabled = false
         }
@@ -62,12 +63,25 @@ FuzzyPanel {
         enabled: false
         onButtonClicked: {
             //do sth to start ScanProgress
+            scan.operateScan()
+            acceptButton.text="Wait"
             acceptAction00_w.enabled = false
             backAction00_w = enabled = false
         }
     }
-    Component.onCompleted: {
+    Connections {
+        id: acceptAction01_w
+        target: acceptButton
+        enabled: false
+        onButtonClicked: {
 
+             accepted()
+            acceptAction01_w.enabled = false
+            backAction00_w = enabled = false
+        }
+    }
+    Component.onCompleted: {
+        acceptButton.text="Wait"
         backAction00_w.enabled = true
         acceptAction00_w.enabled = true
         scan.prepareScan()

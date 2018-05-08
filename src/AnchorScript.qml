@@ -14,19 +14,42 @@ Item {
     states: [
         State {
             name: "normal"
-            extend: ""
 
-            AnchorChanges {
+
+           /* AnchorChanges {
                 target: inputPanel
                 anchors.right: undefined
                 anchors.left: parent.right
+            }*/
+            AnchorChanges{
+                target: lefttop
+                anchors.left: parent.left
+                anchors.bottom: centPoint.top
+                anchors.right: centPoint.left
+                anchors.top: parent.top
+
+            }
+            AnchorChanges{
+                target: righttop
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: centPoint.top
+                anchors.left: centPoint.left
             }
 
+            AnchorChanges{
+                target: leftbottom
+                anchors.left: parent.left
+                anchors.bottom: toolbar.top
+                anchors.right: centPoint.left
+                anchors.top: centPoint.top
 
+            }
             StateChangeScript {
                 script: {
                     acceptButton.state = "invisible"
                     cancelButton.state = "invisible"
+                    thirdButton.state="invisible"
                     inputPanel.state = "hide"
                     lefttopContentArea.state="01"
                     lefttopShowAction.enabled=true
@@ -39,13 +62,9 @@ Item {
         },
         State {
             name: "lefttopshow"
-            extend: "normal"
+
             StateChangeScript {
                 script: {
-                    //lefttopInputPanelShowAction.enabled = true
-
-
-                    //ltchildSeq.seq[0].forceFocus()
                     acceptButton.text="Next"
                     console.log("ltshow")
                 }
@@ -114,19 +133,14 @@ Item {
             extend: "lefttopshow"
             StateChangeScript{
                 script: {
-
+                    inputPanel.state="show"
                     console.log("ltinp")
                 }
             }
 
 
 
-            AnchorChanges {
-                target: inputPanel
-                anchors.left: undefined
-                anchors.right: parent.right
 
-            }
             AnchorChanges {
                 target: lefttop
                 anchors.top:parent.top
@@ -139,18 +153,13 @@ Item {
         },
         State {
             name: "work"
-            extend: "lefttopshow"
+            extend: "lefttopInput"
 
         },
         State {
             name: "leftbottomshow"
             extend: "normal"
-            StateChangeScript {
-                script: {
-                    backAction10.enabled = true
-                    acceptAction10.enabled=true
-                }
-            }
+
 
             AnchorChanges {
                 target: leftbottom.titleText
@@ -194,16 +203,7 @@ Item {
 
                 anchors.left: parent.right
             }
-            PropertyChanges {
-                target: cancelButton
-                enabled: true
-                state: "idle"
-            }
-            PropertyChanges {
-                target: acceptButton
-                enabled: true
-                state: "idle"
-            }
+
             PropertyChanges {
                 target: leftbottomContentArea
                 state:"02"
@@ -212,12 +212,9 @@ Item {
         },
         State {
             name: "righttopshow"
-            extend: "normal"
-            StateChangeScript {
-                script: {
-                    acceptAction01.enabled = true
-                }
-            }
+            //extend: "normal"
+
+
             PropertyChanges{
                 target: acceptButton
                 enabled:true
@@ -273,7 +270,7 @@ Item {
         },
         State {
             name: "rightbottomshow"
-            extend: "normal"
+            //extend: "normal"
             StateChangeScript {
                 script: {
                     acceptAction11.enabled = true
@@ -336,48 +333,8 @@ Item {
 
 
 
-    Connections {
-        id: backAction01
-        target: cancelButton
-        enabled: false
-        onButtonClicked: {
-            anchorScript.state = "normal"
-            backAction01.enabled=false
-            righttopShowAction.enabled = true
-        }
-    }
-    Connections {
-        id: acceptAction01
-        target: acceptButton
-        enabled: false
-        onButtonClicked: {
-            anchorScript.state = "normal"
-            acceptAction01.enabled=false
-            righttopShowAction.enabled = true
-        }
-    }
-    Connections {
-        id: acceptAction10
-        target: acceptButton
-        enabled: false
-        onButtonClicked: {
-            anchorScript.state = "normal"
-            acceptAction10.enabled=false
-            backAction10.enabled=false
-            leftbottomShowAction.enabled = true
-        }
-    }
-    Connections {
-        id: backAction10
-        target: cancelButton
-        enabled: false
-        onButtonClicked: {
-            anchorScript.state = "normal"
-            backAction10.enabled=false
-            acceptAction10.enabled=false
-            leftbottomShowAction.enabled = true
-        }
-    }
+
+
     Connections {
         id: backAction11
         target: cancelButton

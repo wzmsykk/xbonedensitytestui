@@ -17,12 +17,7 @@ SOURCES += main.cpp \
     settings.cpp \
     svgedit.cpp
 
-lupdate_only{
-  SOURCES = *.qml \
-            *.js \
-            content/*.qml \
-            content/*.js
-  }
+
 RESOURCES += \
     qml.qrc
 

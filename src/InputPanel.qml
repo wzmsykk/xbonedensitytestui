@@ -19,6 +19,8 @@ Rectangle{
     Item{
         id:defDist
     }
+    property string role: "numberial"
+
 
     property int gridSpacing:6
     property int tileWidth: (inputPanel.width-2*gridSpacing)/3
@@ -44,33 +46,22 @@ Rectangle{
         }
     }
 
-    state: "numberial"
+    state: "hide"
     states: [State {
-            name: "numberial"
-            PropertyChanges {
-                target: numgrid
-                visible:true
-
-            }
-            PropertyChanges {
-                target: sele
-                visible:false
-
+            name: "show"
+            AnchorChanges{
+                target: inputPanel
+                anchors.left: undefined
+                anchors.right: parent.right
             }
         },State {
-            name: "selection"
-            PropertyChanges {
-                target: numgrid
-                visible:false
-            }
-            PropertyChanges{
-                target: sele
-                visible:true
-            }
-            PropertyChanges{
+            name: "hide"
+            AnchorChanges{
                 target: inputPanel
-
+                anchors.right: undefined
+                anchors.left: parent.right
             }
+
         }]
     transitions: Transition {
         AnchorAnimation {
@@ -98,6 +89,7 @@ Rectangle{
         rows:4
         spacing: gridSpacing
         id:numgrid
+        visible: role==="numberial"?true:false
         Repeater{
             model:["1","2","3","4","5","6","7","8","9","","0","\u232B"]
             delegate: PanelTile{
@@ -113,6 +105,7 @@ Rectangle{
     Column{
         id:sele
         spacing: gridSpacing
+        visible: role==="selection"?true:false
         Repeater{
             model: (targetDist!=defDist&&targetDist.types==="selection")?targetDist.model:undefined
             delegate: PanelTile{

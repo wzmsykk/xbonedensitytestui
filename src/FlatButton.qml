@@ -8,9 +8,7 @@ Rectangle{
     property alias content: ftb
     property alias title: label.text
     property string types: "text"
-    property var model: [ftb.text]
-    property int index: 0
-    signal focused()
+    signal buttonClicked()
     implicitWidth: 200
     implicitHeight: 100
     border.width: style==="simple"?1:0
@@ -20,13 +18,28 @@ Rectangle{
         ftb.forceActiveFocus()
 
     }
+    states: [State {
+            name: "idle"
+            PropertyChanges {
+                target: object
 
+            }
+        }]
     MouseArea{
         anchors.fill: parent
         onClicked: {
             ftb.focus=true
             mouse.accepted=true
+             buttonClicked()
         }
+        onPressed: {
+            if(style==="simple")ftb.opacity=0.3
+        }
+        onReleased: {
+             if(style==="simple")ftb.opacity=0.65
+        }
+
+
     }
 
     ColumnLayout{

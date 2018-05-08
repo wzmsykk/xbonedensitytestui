@@ -11,6 +11,7 @@ Rectangle{
     property string types: "text"
     property var model: [ftf.text]
     property int index: 0
+    property alias validator: ftf.validator
     signal focused()
     implicitWidth: 200
     implicitHeight: 100

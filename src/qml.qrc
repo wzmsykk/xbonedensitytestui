@@ -36,5 +36,10 @@
         <file>FlatButton.qml</file>
         <file>PatientSet.qml</file>
         <file>WorkPage.qml</file>
+        <file>PopupLoader.qml</file>
+        <file>SettingPage.qml</file>
+        <file>PrintSettings.qml</file>
+        <file>TimeSettings.qml</file>
+        <file>ResultPage.qml</file>
     </qresource>
 </RCC>
