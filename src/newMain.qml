@@ -11,7 +11,7 @@ ApplicationWindow {
     height: 500
     visible: true
     title: qsTr("Test App")
-    property bool testui: true
+    property bool testui: false
     property int paneHeight: 200
     property int paneWidth: 300
     property int vMargin: 10
@@ -503,7 +503,7 @@ ApplicationWindow {
             }
             Text {
                 color: primaryColor
-                text: "About"
+                text: qsTr("About")
                 anchors.verticalCenter: parent.verticalCenter
                 width: parent.width-img10.width
                 fontSizeMode: Text.Fit

@@ -20,7 +20,7 @@ Grid {
        }
     }
     Settings{
-
+        id:timeSet
     }
 
     FlatTextField {
@@ -49,7 +49,7 @@ Grid {
         onFocused: {
             inputPanel.targetDist = ps02
             inputPanel.role = "numberial"
-            tmchildSeq.activeIndex = 0
+            tmchildSeq.activeIndex = 1
         }
         validator: IntValidator {
             bottom: 1
@@ -65,7 +65,7 @@ Grid {
         onFocused: {
             inputPanel.targetDist = ps03
             inputPanel.role = "numberial"
-            tmchildSeq.activeIndex = 0
+            tmchildSeq.activeIndex = 2
         }
         validator: IntValidator {
             bottom: 1
@@ -81,7 +81,7 @@ Grid {
         onFocused: {
             inputPanel.targetDist = ps04
             inputPanel.role = "numberial"
-            tmchildSeq.activeIndex = 0
+            tmchildSeq.activeIndex = 3
         }
         validator: IntValidator {
             bottom: 0
@@ -97,7 +97,7 @@ Grid {
         onFocused: {
             inputPanel.targetDist = ps05
             inputPanel.role = "numberial"
-            tmchildSeq.activeIndex = 0
+            tmchildSeq.activeIndex = 4
         }
         validator: IntValidator {
             bottom: 0
@@ -105,7 +105,16 @@ Grid {
         }
     }
 
-
+function setTimeText(){
+    var tmp=new Date()
+    console.log(tmp)
+    console.log(tmp.getFullYear())
+   ps01.content.text=tmp.getFullYear()
+    ps02.content.text=tmp.getMonth()
+    ps03.content.text=tmp.getDay()
+    ps04.content.text=tmp.getHours()
+    ps05.content.text=tmp.getMinutes()
+}
     Item {
         id: tmchildSeq
         property var seq: [ps01, ps02, ps03, ps04, ps05]
@@ -135,7 +144,7 @@ Grid {
             if (index === 0) {
                 activeIndex = 0
                 cancelButton.text = qsTr("Cancel")
-
+                acceptButton.text=qsTr("OK")
 
                 accept.enabled = false
                 cancel.enabled = false
@@ -149,21 +158,22 @@ Grid {
         }
 
         function commit() {
-            for (var i = 0; i < seq.length; i++) {
-                infoSet[0] = seq[0].model[seq[0].index]
-            }
+            for(var i=0;i<5;i++) console.log(seq[i].model[0])
             activeIndex = 0
             inputPanel.state="hide"
             inputPanel.setDefaultDist()
             accept.enabled = false
             cancel.enabled = false
             acceptButton.text=qsTr("OK")
+             var newdate=new Date(seq[0].model[0]*1,seq[1].model[0]*1-1,seq[2].model[0]*1,seq[3].model[0]*1,seq[4].model[0]*1)
 
+            console.log(newdate)
+            timeSet.changeTime(newdate)
             accepted()
         }
     }
     Component.onCompleted: {
-
+        setTimeText()
         ps01.forceFocus()
 
         inputPanel.role = "numberial"
@@ -183,6 +193,7 @@ Grid {
         target: acceptButton
         enabled: true
         onButtonClicked: {
+
             tmchildSeq.next(tmchildSeq.activeIndex)
         }
     }

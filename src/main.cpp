@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     ss.changeIcon("#000000");
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QTranslator zh;
-    zh.load("translation_zh.qm",":/");
+    zh.load("zh_cn.qm",":/");
 
     qmlRegisterType<Initc>("com.kp.initc",1,0,"Initc");
     qmlRegisterType<Scan>("com.kp.scan",1,0,"Scan");

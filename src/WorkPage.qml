@@ -40,10 +40,12 @@ FuzzyPanel {
     Text {
         id: wplb
         color: primaryColor
+        width: parent.width
         text: "Start"
         anchors.verticalCenter: parent.verticalCenter
         fontSizeMode: Text.Fit
-        font.pixelSize: 72
+        font.pixelSize: 22
+        wrapMode: Text.Wrap
     }
     Connections {
         id: backAction00_w
