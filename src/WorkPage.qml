@@ -16,22 +16,22 @@ FuzzyPanel {
 
         onHandleScanPreperationResults: {
             if (result === 1) {
-                wplb.text = "prepared"
-                acceptButton.text="Scan"
+                wplb.text = qsTr("prepared")
+                acceptButton.text=qsTr("Scan")
                 acceptAction00_w.enabled=true
             }
         }
         onHandleScanResults: {
             if (result === 1) {
-                wplb.text = "scanFinished"
+                wplb.text = qsTr("scanFinished")
             } else if (result === 2) {
-                wplb.text = "doing sth"
+                wplb.text = qsTr("doing sth")
             } else if (result === 3) {
-                wplb.text = "allfinished,press Next to show result"
+                wplb.text = qsTr("allfinished,press Next to show result")
 
             } else if (result === 4) {
                 acceptAction01_w.enabled=true
-                 acceptButton.text="Next"
+                 acceptButton.text=qsTr("Next")
 
             }
         }
@@ -64,7 +64,7 @@ FuzzyPanel {
         onButtonClicked: {
             //do sth to start ScanProgress
             scan.operateScan()
-            acceptButton.text="Wait"
+            acceptButton.text=qsTr("Wait")
             acceptAction00_w.enabled = false
             backAction00_w = enabled = false
         }
@@ -81,7 +81,7 @@ FuzzyPanel {
         }
     }
     Component.onCompleted: {
-        acceptButton.text="Wait"
+        acceptButton.text=qsTr("Wait")
         backAction00_w.enabled = true
         acceptAction00_w.enabled = true
         scan.prepareScan()

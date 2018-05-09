@@ -45,7 +45,7 @@ Rectangle{
         horizontalAlignment: Text.AlignHCenter
         anchors.horizontalCenter: parent.horizontalCenter
         font.pointSize: 12
-        //fontSizeMode: Text.Fit
+        fontSizeMode: Text.Fit
     }
     Label{
         id:content

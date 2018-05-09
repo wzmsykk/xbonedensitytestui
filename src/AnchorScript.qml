@@ -50,6 +50,7 @@ Item {
                     acceptButton.state = "invisible"
                     cancelButton.state = "invisible"
                     thirdButton.state="invisible"
+
                     inputPanel.state = "hide"
                     lefttopContentArea.state="01"
                     lefttopShowAction.enabled=true
@@ -158,8 +159,17 @@ Item {
         },
         State {
             name: "leftbottomshow"
-            extend: "normal"
+           // extend: "normal"
 
+
+                    PropertyChanges {
+                        target: acceptButton
+                        state:"idle"
+                    }
+                    PropertyChanges{
+                        target: cancelButton
+                        state:"idle"
+                    }
 
             AnchorChanges {
                 target: leftbottom.titleText

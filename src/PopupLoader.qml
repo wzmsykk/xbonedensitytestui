@@ -49,6 +49,7 @@ Loader{
             }
         }]
     Rectangle{
+        visible: false
         anchors.fill: parent
         border.color: "green"
     }

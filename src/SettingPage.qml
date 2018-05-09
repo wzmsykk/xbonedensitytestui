@@ -117,11 +117,59 @@ Grid{
         width: (parent.width-3*rt02.spacing)/rt02.columns
         height: (parent.height-5*rt02.spacing)/rt02.rows
         title: qsTr("Password Settings")
+        onButtonClicked: {
+            popupLoader.source="PasswordSettings.qml"
+            popupLoader.state="show2"
+            inputPanel.state="show"
+             pascom.enabled=true
+            cancelButton.state="idle"
+            holdState()
+        }
+        Connections{
+            id:pascom
+            enabled:false
+            target: popupLoader.item
+            ignoreUnknownSignals: true
+            onAccepted:{
+                recoverState()
+
+                    console.log("pasxcom")
+                pascom.enabled=false
+            }
+            onCanceled:{
+                recoverState()
+                 pascom.enabled=false
+            }
+        }
     }
     FlatButton{
         width: (parent.width-3*rt02.spacing)/rt02.columns
         height: (parent.height-5*rt02.spacing)/rt02.rows
         title: qsTr("Other Settings")
+        onButtonClicked: {
+            popupLoader.source="OtherSettings.qml"
+            popupLoader.state="show2"
+            inputPanel.state="show"
+             pascom.enabled=true
+            cancelButton.state="idle"
+            holdState()
+        }
+        Connections{
+            id:othcom
+            enabled:false
+            target: popupLoader.item
+            ignoreUnknownSignals: true
+            onAccepted:{
+                recoverState()
+
+                    console.log("othxcom")
+               othcom.enabled=false
+            }
+            onCanceled:{
+                recoverState()
+                 othcom.enabled=false
+            }
+        }
     }
 
     Connections {

@@ -18,6 +18,7 @@ ApplicationWindow {
     property int hMargin: 10
     property int toolBarHeight: 0.14 * root.height
     property string style:"simple"
+    property string lang: "en"
     property string primaryColor:style==="simple"?"#000000":"#ffffff"
     property var infoSet: [-1,-1,0,0]
     property var currInfo:[]
@@ -121,11 +122,12 @@ ApplicationWindow {
             id: thirdButton
             anchors.bottom: parent.bottom
             anchors.margins: 8
-            anchors.right: acceptButton.left
+            anchors.right: cancelButton.left
             anchors.rightMargin: vMargin
             anchors.top: parent.top
             height: parent.height * 0.85
             width: parent.width * 0.22
+            state: "idle"
         }
         CancelButton {
             id: cancelButton
@@ -225,7 +227,7 @@ ApplicationWindow {
                 }
                 Text {
                     color: primaryColor
-                    text: "Start"
+                    text: qsTr("Start")
                     anchors.verticalCenter: parent.verticalCenter
                     fontSizeMode: Text.Fit
                     font.pixelSize: 72
@@ -264,8 +266,11 @@ ApplicationWindow {
                      waitScanResult.enabled=false
                  }
                  onAccepted:{
-                      waitScanResult.enabled=false
+                     waitScanResult.enabled=false
+                     anchorScript.state="normal"
                      anchorScript.state="leftbottomshow"
+
+
                  }
              }
 
@@ -303,7 +308,7 @@ ApplicationWindow {
                         target: lb02
                         visible: false
                         opacity:0
-                          source:""
+                        source:""
                     }
                 },
                 State {
@@ -312,7 +317,7 @@ ApplicationWindow {
                         target: lb02
                         visible: true
                         opacity:1
-                          source:"ResultPage.qml"
+                        source:"ResultPage.qml"
                     }
                     PropertyChanges {
                         target: lb01
@@ -337,7 +342,7 @@ ApplicationWindow {
                     width: parent.height * 0.8
                 }
                 Text {
-                    text: "Results"
+                    text: qsTr("Results")
                     width: parent.width - img00.width
                     anchors.verticalCenter: parent.verticalCenter
 
@@ -418,7 +423,7 @@ ApplicationWindow {
             }
             Text {
                 color: primaryColor
-                text: "Settings"
+                text: qsTr("Settings")
                 anchors.verticalCenter: parent.verticalCenter
                 width: parent.width-img10.width
                 fontSizeMode: Text.Fit

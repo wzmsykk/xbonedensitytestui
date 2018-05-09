@@ -30,6 +30,12 @@ Rectangle {
     states: [
         State {
             name: "idle"
+            StateChangeScript{
+                script: {
+                    console.log("AcceptBS:idle")
+                }
+            }
+
             PropertyChanges {
                 target: acceptButton
                 visible:true
@@ -60,6 +66,12 @@ Rectangle {
             }
         },State {
             name: "invisible"
+            StateChangeScript{
+                script: {
+                    console.log("AcceptBS:invisible")
+                }
+            }
+
             PropertyChanges {
                 target: acceptButton
                 visible:false

@@ -27,9 +27,9 @@ RESOURCES += \
 QML_DESIGNER_IMPORT_PATH =
 
 # Default rules for deployment.
-TRANSLATIONS = translation.ts
-DISTFILES += \
-    translation.ts
+TRANSLATIONS = zh_cn.ts
+DISTFILES += zh_cn.ts \
+    zh_cn.ts
 
 HEADERS += \
     initc.h \

@@ -41,5 +41,9 @@
         <file>PrintSettings.qml</file>
         <file>TimeSettings.qml</file>
         <file>ResultPage.qml</file>
+        <file>PasswordSettings.qml</file>
+        <file>FlatPasswordTextField.qml</file>
+        <file>OtherSettings.qml</file>
+        <file>zh_cn.qm</file>
     </qresource>
 </RCC>

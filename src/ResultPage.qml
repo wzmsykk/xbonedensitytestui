@@ -29,9 +29,11 @@ Grid {
 
     }
     Component.onCompleted: {
-        cancelButton.state="idle"
-        acceptButton.state="idle"
-         acceptAction10.enabled=true
+
+
+        cancelButton.visible=true
+        console.log("ISH")
+        acceptAction10.enabled=true
         backAction10.enabled=true
         acceptButton.text=qsTr("Edit")
         cancelButton.text=qsTr("Back")
