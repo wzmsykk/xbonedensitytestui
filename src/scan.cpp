@@ -1,6 +1,8 @@
 #include "scan.h"
 #include <QThread>
 
+#include "lib/createbmp.h"
+
 /*signals:
     void handleScanPreperationResults(int result);
     void handleScanResults(int result);
@@ -52,6 +54,9 @@ void  ScanWorker::doScan(){
     QThread::sleep(1);
      qDebug("doingScan");
     emit scanOK(1);//stage1
+
+     createbmp(7);
+
        QThread::sleep(1);
       emit scanOK(2);//stage2
          QThread::sleep(1);

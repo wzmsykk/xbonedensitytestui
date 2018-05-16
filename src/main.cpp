@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Initc>("com.kp.initc",1,0,"Initc");
     qmlRegisterType<Scan>("com.kp.scan",1,0,"Scan");
     qmlRegisterType<Settings>("com.kp.settings",1,0,"Settings");
+    qmlRegisterType<svgEdit>("imageEdit",1,0,"ImageEdit");
     Settings mySet;
 
     QGuiApplication app(argc, argv);

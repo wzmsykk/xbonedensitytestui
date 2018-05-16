@@ -24,6 +24,8 @@ ApplicationWindow {
     property var currInfo:[]
     property var defaultInfoSet: [-1,-1,0,0]
     property var printSet: [1,0,0]
+    property int currentFingerSelection: 7
+    property bool resultReady: false
 
 
 
@@ -207,7 +209,9 @@ ApplicationWindow {
                         source:"PatientSet.qml"
                     }
                     StateChangeScript{
-                        script: lt02a.enabled=true
+
+                        script:{ lt02a.enabled=true
+                            currInfo=defaultInfoSet}
                     }
                 }
             ]
@@ -243,7 +247,7 @@ ApplicationWindow {
                  target: lt02.item
                  enabled:false
                  onAccepted:{
-                     currInfo=infoSet
+
                      popupLoader.source="WorkPage.qml"
                      popupLoader.state="show"
                      inputPanel.state="hide"
@@ -323,6 +327,11 @@ ApplicationWindow {
                         target: lb01
                         opacity: 0
 
+                    }
+                    StateChangeScript{
+                        script: {
+                            currInfo=defaultInfoSet
+                        }
                     }
                 }
             ]

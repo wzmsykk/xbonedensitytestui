@@ -66,7 +66,7 @@ Item {
 
             StateChangeScript {
                 script: {
-                    acceptButton.text="Next"
+                   // acceptButton.text=qsTr("Next")
                     console.log("ltshow")
                 }
             }

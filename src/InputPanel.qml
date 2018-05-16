@@ -14,6 +14,7 @@ Rectangle{
     clip: true
     function setDefaultDist(){
         inputPanel.targetDist=defDist
+        inputPanel.role="numberial"
     }
 
     Item{

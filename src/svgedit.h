@@ -8,7 +8,8 @@ class svgEdit : public QObject
     Q_OBJECT
 public:
     explicit svgEdit(QObject *parent = nullptr);
-    void changeIcon(QString color);
+    Q_INVOKABLE void changeIcon(QString color);
+    Q_INVOKABLE void changeLCD(int fingers);
 signals:
 
 public slots:

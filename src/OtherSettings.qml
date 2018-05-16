@@ -57,6 +57,7 @@ Grid{
     }
 
     Component.onCompleted: {
+        loadOtherSettings()
             inputPanel.role="selection"
             ps01.forceFocus()
           cancelButton.state="idle"

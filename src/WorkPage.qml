@@ -8,6 +8,9 @@ FuzzyPanel {
     id: workPage
     anchors.fill: parent
     target: backGImage
+    function setButtonRoles(){
+
+    }
 
     signal canceled()
     signal accepted()
@@ -30,8 +33,10 @@ FuzzyPanel {
                 wplb.text = qsTr("allfinished,press Next to show result")
 
             } else if (result === 4) {
+                resultReady=true
                 acceptAction01_w.enabled=true
-                 acceptButton.text=qsTr("Next")
+                acceptButton.text=qsTr("Next")
+                acceptButton.state="idle"
 
             }
         }
@@ -41,7 +46,7 @@ FuzzyPanel {
         id: wplb
         color: primaryColor
         width: parent.width
-        text: "Start"
+        text: ""
         anchors.verticalCenter: parent.verticalCenter
         fontSizeMode: Text.Fit
         font.pixelSize: 22
@@ -59,6 +64,7 @@ FuzzyPanel {
             acceptAction00_w.enabled = false
         }
     }
+
     Connections {
         id: acceptAction00_w
         target: acceptButton
@@ -67,6 +73,7 @@ FuzzyPanel {
             //do sth to start ScanProgress
             scan.operateScan()
             acceptButton.text=qsTr("Wait")
+            acceptButton.state="invalid"
             acceptAction00_w.enabled = false
             backAction00_w = enabled = false
         }

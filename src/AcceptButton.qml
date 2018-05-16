@@ -40,7 +40,12 @@ Rectangle {
                 target: acceptButton
                 visible:true
                 opacity:1
+                enabled:true
 
+            }
+            PropertyChanges{
+                target: acceptAction
+                enabled:true
             }
             PropertyChanges {
                 target: backtangle
@@ -75,8 +80,24 @@ Rectangle {
             PropertyChanges {
                 target: acceptButton
                 visible:false
+                enabled:false
                 opacity:0
 
+            }
+            PropertyChanges{
+                target: acceptAction
+                enabled:false
+            }
+        },State {
+            name: "invalid"
+            PropertyChanges{
+                target: acceptAction
+                enabled:false
+            }
+            PropertyChanges {
+                target: backtangle
+                color:"#9E9E9E"
+                opacity:0.8
             }
         }]
     Rectangle{
@@ -100,7 +121,7 @@ Rectangle {
     MouseArea{
         id:acceptAction
         anchors.fill: parent
-        enabled: parent.visible
+        enabled: true
         onPressed: {
             acceptButton.state="pressed"
         }

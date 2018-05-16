@@ -2,6 +2,7 @@
 #define SCAN_H
 #include <QObject>
 #include<QThread>
+
 class ScanWorker :public QObject
 
 {

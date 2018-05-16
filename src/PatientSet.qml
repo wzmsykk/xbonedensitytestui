@@ -36,7 +36,7 @@ FuzzyPanel {
             focus: true
             width: parent.width
             height: (parent.height - parent.rowSpacing * 3) / 2
-            content.text: (defaultInfoSet[0]===-1)?"":defaultInfoSet[0]
+            content.text: (currInfo[0]===-1)?"":currInfo[0]
             onFocused: {
                 inputPanel.targetDist = text1
                 inputPanel.role = "numberial"
@@ -49,7 +49,7 @@ FuzzyPanel {
             enabled: true
             width: parent.width
             height: (parent.height - parent.rowSpacing * 3) / 2
-             content.text: (defaultInfoSet[1]===-1)?"":defaultInfoSet[1]
+             content.text: (currInfo[1]===-1)?"":currInfo[1]
             onFocused: {
 
                 inputPanel.targetDist = text2
@@ -67,7 +67,7 @@ FuzzyPanel {
                 height: parent.height
                 title: qsTr("Gender")
                 model: [qsTr("male"), qsTr("female")]
-                index:defaultInfoSet[2]
+                index:currInfo[2]
                 onFocused: {
                     inputPanel.targetDist = u3
                     inputPanel.role = "selection"
@@ -80,7 +80,7 @@ FuzzyPanel {
                 height: parent.height
                 title: qsTr("Race")
                 model: [qsTr("Css"), qsTr("Asian"), qsTr("Others")]
-                index:defaultInfoSet[3]
+                index:currInfo[3]
                 onFocused: {
                     inputPanel.targetDist = u4
                     inputPanel.role = "selection"

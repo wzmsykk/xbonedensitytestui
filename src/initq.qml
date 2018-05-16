@@ -13,6 +13,7 @@ Item {
         id: loadBox
         property bool timeLimitExceeded: false
         property bool scanButtonPressed: false
+        property int demandKey: Qt.Key_A
         state:  "onSelfTest"
         anchors.fill: parent
         focus: true
@@ -77,7 +78,7 @@ Item {
 
 
         Keys.onPressed: {
-            if (event.key === Qt.Key_A) {
+            if (event.key === demandKey) {
                 scanButtonPressed = true
                 console.log("A pressed")
                 if (loadBox.state === "firstScanPrepared"
@@ -91,7 +92,7 @@ Item {
         Keys.onReleased: {
             scanButtonPressed = false
             console.log("A released")
-            if (event.key === Qt.Key_A) {
+            if (event.key === demandKey) {
                 if ((loadBox.state === "firstScanPrepared"
                      || loadBox.state === "timeNotExceeded")
                         && timeLimitExceeded === false) {

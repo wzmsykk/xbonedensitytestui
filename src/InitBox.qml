@@ -14,7 +14,7 @@ Item {
         rect1.close()
     }
     anchors.fill: parent
-
+    signal boxClicked()
     Popup {
         id: rect1
         dim:true
@@ -25,6 +25,12 @@ Item {
         modal: true
         z: 0
         Material.elevation:24
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                boxClicked()
+            }
+        }
 
         ProgressBar {
             id: control

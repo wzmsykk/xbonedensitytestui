@@ -34,6 +34,7 @@ Rectangle{
     ColumnLayout{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
+       height: parent.height
     Label {
         id: label
 

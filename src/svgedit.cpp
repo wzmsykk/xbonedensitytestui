@@ -3,10 +3,15 @@
 #include <QFile>
 #include <QRegExp>
 #include <QCoreApplication>
+#include "lib/createbmp.h"
 svgEdit::svgEdit(QObject *parent) : QObject(parent)
 {
 
 }
+ void svgEdit::changeLCD(int fingers)
+{
+    createbmp(fingers);
+ }
 void svgEdit::changeIcon(QString color)
 {
     int i;

@@ -1,5 +1,7 @@
 TEMPLATE = subdirs
 
-SUBDIRS +=src
+SUBDIRS +=src \
+    find_phalanges
+
 
 TRANSLATIONS+=./src/zh_cn.ts

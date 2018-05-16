@@ -45,5 +45,6 @@
         <file>FlatPasswordTextField.qml</file>
         <file>OtherSettings.qml</file>
         <file>zh_cn.qm</file>
+        <file>FingerSettings.qml</file>
     </qresource>
 </RCC>

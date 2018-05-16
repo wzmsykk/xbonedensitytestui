@@ -29,10 +29,24 @@ QML_DESIGNER_IMPORT_PATH =
 # Default rules for deployment.
 TRANSLATIONS = zh_cn.ts
 DISTFILES += zh_cn.ts \
-    zh_cn.ts
+    zh_cn.ts \
+    input_data \
+    lcdroi \
+    lcd
 
 HEADERS += \
     initc.h \
     scan.h \
     settings.h \
-    svgedit.h
+    svgedit.h \
+    lib/createbmp.h \
+    lib/generatelcd.h
+
+
+unix|win32: LIBS += -L$$PWD/lib/ -lcreatebmp32
+
+INCLUDEPATH += $$PWD/.
+DEPENDPATH += $$PWD/.
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/libcreatebmp32.a
+else:unix|win32-g++: PRE_TARGETDEPS += $$PWD/lib/libcreatebmp32.a
