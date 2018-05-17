@@ -14,14 +14,25 @@ Rectangle {
     state: "invisible"
     property alias text: label1.text
     signal buttonClicked()
-    property var stack: []
-    function pushText(intext){
-        stack.push(intext)
-        text=stack[stack.length-1]
+    property var rolestack: []
+    //var role=[connection name,textString]
+    function pushRole(inRole){
+        if(rolestack.length>0)rolestack[rolestack.length-1][0].enabled=false
+        rolestack.push(inRole)
+        text=rolestack[rolestack.length-1][1]
+        rolestack[rolestack.length-1][0].enabled=true
     }
-   function poptText(){
-       stack.pop()
-       text=stack[stack.length-1]
+   function popRole(){
+       if(rolestack.length<=0) return 0
+       else if(rolestack.length>=1){
+       rolestack[rolestack.length-1][0].enabled=false
+       rolestack.pop()
+           if(rolestack.length>=2){
+       text=rolestack[rolestack.length-1]
+       rolestack[rolestack.length-1][0].enabled=true
+           }
+       }
+       return 2
    }
 
     Behavior on opacity {NumberAnimation{}}
@@ -92,7 +103,7 @@ Rectangle {
             name: "invalid"
             PropertyChanges{
                 target: acceptAction
-                enabled:false
+                enabled:false            
             }
             PropertyChanges {
                 target: backtangle

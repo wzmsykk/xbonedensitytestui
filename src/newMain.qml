@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
 import com.kp.scan 1.0
+import com.kp.settings 1.0
 ApplicationWindow {
     id: root
     width: 800
@@ -26,8 +27,16 @@ ApplicationWindow {
     property var printSet: [1,0,0]
     property int currentFingerSelection: 7
     property bool resultReady: false
+    property int hiddenSetCount: 0
+    function showHiddenSettings(){
+        console.log("showed")
+        hiddenLoader.source="HiddenSettings.qml"
+        hideAction.enabled=false
 
-
+    }
+    Settings{
+        id:mySettings
+    }
 
     AnchorScript {
         id: anchorScript
@@ -57,8 +66,12 @@ ApplicationWindow {
     }
     Loader {
         id: ld
+        z:4
         source: testui ? "" : "initq.qml"
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right:parent.right
+        anchors.bottom: toolbar.top
         Component.onCompleted: {
 
         }
@@ -68,7 +81,7 @@ ApplicationWindow {
             onInitAllSucceed: {
                 ld.enabled = false
                 ld.visible = false
-
+                anchorScript.state="normal"
             }
         }
     }
@@ -81,9 +94,18 @@ ApplicationWindow {
         source: ""
         z: 6
     }
+    Loader{
+        id:hiddenLoader
+        anchors.bottom: toolbar.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        source: ""
+        z:5
+    }
 
     Item {
-        id: centPoint
+        id: centPoint//Anchor Positioner Central Point
         x: parent.width / 2
         y: (parent.height - toolbar.height - vMargin) / 2
     }
@@ -108,6 +130,7 @@ ApplicationWindow {
         anchors.right: parent.right
         anchors.rightMargin: hMargin
         height: toolBarHeight
+
         Label {
             id: timeText
             text: new Date().toLocaleTimeString(Qt.locale(), Locale.ShortFormat)
@@ -119,7 +142,32 @@ ApplicationWindow {
             fontSizeMode: Text.VerticalFit
             minimumPixelSize: 10
             font.pixelSize: 72
+            MouseArea{
+                id:hideAction
+                anchors.fill: parent
+                onClicked: {
+                    if(hiddenSetTimer.running===false) hiddenSetTimer.restart();
+                    hiddenSetCount++;
+                    if(hiddenSetCount>=5){
+                        hiddenSetTimer.stop()
+                        hiddenSetCount=0
+                        showHiddenSettings()
+                    }
+                }
+
+            }
         }
+        Timer{
+            id:hiddenSetTimer
+            interval: 1000
+            repeat: false
+            running: false
+            triggeredOnStart: false
+            onTriggered: {
+                hiddenSetCount=0
+            }
+        }
+
         CancelButton {
             id: thirdButton
             anchors.bottom: parent.bottom

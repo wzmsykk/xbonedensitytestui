@@ -9,6 +9,11 @@ Settings::Settings(QObject *parent):
     ,m_color(0)
   ,m_password(0)
   ,m_pswExist(false)
+  ,m_byteUsed(0)
+  ,m_gain(0)
+  ,m_expcount(0)
+  ,m_accmu(0)
+  ,m_serial("123456")
 {
 
 }
@@ -90,6 +95,37 @@ void Settings::setPswExist(bool bol){
 
 
 
+int Settings::byteUsed(){return 0;}
+
+int Settings::checkSum(){return 0;}
+int Settings::PMTValue(){return 0;}
+int Settings::zoffset(){return 0;}
+int Settings::toffset(){return 0;}
+int Settings::gain(){return m_gain;}
+void Settings::setGain(int gain){m_gain=gain;}
+int Settings::offset(){return 0;}
+int Settings::avgmu(){return 0;}
+
+int Settings::expcount(){return m_expcount;}
+void Settings::setExpcount(int expcount){m_expcount=expcount;}
+int Settings::accmu(){return m_accmu;}
+void Settings::setAccmu(int accmu){m_accmu=accmu;}
+QString Settings::serial(){return m_serial;}
+void Settings::setSerial(QString serial){m_serial=serial;}
+QString Settings::sver(){
+    QString sver="v0.01";
+    return sver;}
+QString Settings::dver(){
+    QString dver="v2.0";
+    return dver;
+}
+float Settings::bmd1(){
+    return 0;
+}
+float Settings::bmd2(){return 0;}
+float Settings::bmd3(){return 0;}
+float Settings::snr(){return 0;}
+float Settings::mu(){return 0;}
 
 
 

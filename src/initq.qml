@@ -8,6 +8,8 @@ Item {
         id: initProc
     }
 
+
+
     InitBox {
         //用states改写
         id: loadBox
@@ -62,7 +64,8 @@ Item {
                  loadBox.enabled = true
             } else if (loadBox.state === "firstScanPrepared") {
                 console.log("Light on.")
-
+                acceptButton.state="idle"
+                acb.enabled=true
             } else if (loadBox.state === "timeNotExceeded") {
                 loadBox.labelText = qsTr(
                             "firstscan interrupted, LONG PRESS the button again")
@@ -72,6 +75,8 @@ Item {
                 initProc.operateFirstScan()
             } else if (loadBox.state === "finished") {
                 loadBox.closePopup()
+                 acceptButton.popRole()
+                acceptButton.state="invisible"
                 initAllSucceed()
             }
         }
@@ -154,7 +159,24 @@ Item {
             loadBox.firstScanReady(result)
         }
     }
-    Component.onCompleted: loadBox.forceActiveFocus()
+
+    Connections{
+        id:acb
+        target:acceptButton
+        enabled:false
+        onButtonClicked:{
+            acb.enabled=false
+            loadBox.state="onScan"
+            acceptButton.state="invalid"
+        }
+    }
+    Component.onCompleted:{
+        loadBox.forceActiveFocus()
+        acceptButton.state="idle"
+        acceptButton.state="invalid"
+        acceptButton.pushRole([acb,qsTr("Scan")])
+    }
+
 }
 
 

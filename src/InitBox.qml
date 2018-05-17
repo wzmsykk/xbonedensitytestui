@@ -8,23 +8,24 @@ Item {
     id: initBox
     property alias labelText: text1.text
     function openPopup(){
-        rect1.open()
+        rect1.visible=true
     }
     function closePopup(){
-        rect1.close()
+       rect1.visible=false
     }
     anchors.fill: parent
     signal boxClicked()
-    Popup {
+    FuzzyPanel {
         id: rect1
-        dim:true
+        //dim:false
+        target: backGImage
         visible: false
-        closePolicy: Popup.NoAutoClose
+        //closePolicy: Popup.NoAutoClose
         width: parent.width
         height: parent.height
-        modal: true
-        z: 0
-        Material.elevation:24
+        //modal: false
+        //Material.elevation:0
+
         MouseArea{
             anchors.fill: parent
             onClicked: {
