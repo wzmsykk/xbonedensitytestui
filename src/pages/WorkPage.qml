@@ -3,14 +3,12 @@ import QtQuick 2.7
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import com.kp.scan 1.0
-
+import "../components"
 FuzzyPanel {
     id: workPage
     anchors.fill: parent
     target: backGImage
-    function setButtonRoles(){
-
-    }
+    property string state: "idle"
 
     signal canceled()
     signal accepted()
@@ -21,7 +19,7 @@ FuzzyPanel {
             if (result === 1) {
                 wplb.text = qsTr("prepared")
                 acceptButton.text=qsTr("Scan")
-                acceptAction00_w.enabled=true
+                state="prepared"
             }
         }
         onHandleScanResults: {
@@ -34,9 +32,10 @@ FuzzyPanel {
 
             } else if (result === 4) {
                 resultReady=true
-                acceptAction01_w.enabled=true
+                state="resultReady"
                 acceptButton.text=qsTr("Next")
                 acceptButton.state="idle"
+                 acceptAction00_w.enabled = true
 
             }
         }
@@ -60,43 +59,39 @@ FuzzyPanel {
 
             //dosth to stop test
             canceled()
-            backAction00_w = enabled = false
-            acceptAction00_w.enabled = false
+
         }
     }
 
     Connections {
         id: acceptAction00_w
         target: acceptButton
-        enabled: false
+        enabled:true
         onButtonClicked: {
             //do sth to start ScanProgress
+            if(state==="prepared"){
             scan.operateScan()
             acceptButton.text=qsTr("Wait")
             acceptButton.state="invalid"
-            acceptAction00_w.enabled = false
-            backAction00_w = enabled = false
-        }
-    }
-    Connections {
-        id: acceptAction01_w
-        target: acceptButton
-        enabled: false
-        onButtonClicked: {
+                 acceptAction00_w.enabled = false
+            }
+            else if(state==="resultReady"){
+                accepted()
+            }
 
-             accepted()
-            acceptAction01_w.enabled = false
-            backAction00_w = enabled = false
+
+
         }
     }
+
     Component.onCompleted: {
-        acceptButton.text=qsTr("Wait")
-        backAction00_w.enabled = true
-        acceptAction00_w.enabled = true
+
+        acceptButton.pushRole([acceptAction00_w,qsTr("Wait"),"idle"])
+        cancelButton.pushRole([backAction00_w,qsTr("cancel"),"idle"])
         scan.prepareScan()
     }
     Component.onDestruction: {
-        acceptAction00_w.enabled = false
-        backAction00_w.enabled = false
+       acceptButton.popRole()
+        cancelButton.popRole()
     }
 }

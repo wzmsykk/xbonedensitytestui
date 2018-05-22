@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
-
+import "../components"
 Grid {
     anchors.fill: parent
     columns: 1
@@ -32,11 +32,18 @@ Grid {
         width: parent.width - 2 * padding
     }
     Component.onCompleted: {
+        acceptButton.pushRole([acceptAction00,qsTr("Next"),"idle"])
+        cancelButton.pushRole([backAction00,qsTr("Cancel"),"idle"])
         ps01.index = printSet[0]
         ps02.index = printSet[1]
         ps03.index = printSet[2]
-        cancelButton.state = "idle"
+
     }
+    Component.onDestroyed: {
+        acceptButton.popRole()
+        cancelButton.popRole()
+    }
+
     Connections {
         id: accept
         target: acceptButton
@@ -45,6 +52,8 @@ Grid {
             printSet[0] = ps01.index
             printSet[1] = ps02.index
             printSet[3] = ps03.index
+
+            acceptButton.popRole()
             accepted()
             accept.enabled = false
         }
@@ -54,8 +63,10 @@ Grid {
         target: cancelButton
         enabled: true
         onButtonClicked: {
+            acceptButton.popRole()
             canceled()
             cancel.enabled = false
         }
     }
+
 }

@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
 import com.kp.scan 1.0
-
+import "../components"
 FuzzyPanel {
     anchors.fill: parent
     signal accepted
@@ -124,6 +124,7 @@ FuzzyPanel {
                     inputPanel.setDefaultDist()
                     backAction00.enabled = false
                     acceptAction00.enabled = false
+
                     canceled()
 
                 } else {
@@ -137,10 +138,10 @@ FuzzyPanel {
                 /*for (var i = 0; i < seq.length; i++) {
                     infoSet[i] = seq[i].model[seq[i].index]
                 }*/
-                infoSet[0] = seq[0].model[seq[0].index]*1
-                infoSet[1] = seq[1].model[seq[1].index]*1
-                infoSet[2] = seq[2].index
-                infoSet[3] = seq[3].index
+                currInfo[0] = seq[0].model[seq[0].index]*1
+                currInfo[1] = seq[1].model[seq[1].index]*1
+                currInfo[2] = seq[2].index
+                currInfo[3] = seq[3].index
 
                 activeIndex = 0
                 //anchorScript.state = "leftbottom"
@@ -152,17 +153,20 @@ FuzzyPanel {
             }
         }
         Component.onCompleted: {
-            console.log("pat loaded")
+            //console.log("pat loaded")
             inputPanel.targetDist = text1
             text1.forceFocus()
 
-            backAction00.enabled = true
-            acceptAction00.enabled = true
+
+            acceptButton.pushRole([acceptAction00,qsTr("Next"),"idle"])
+            cancelButton.pushRole([backAction00,qsTr("Cancel"),"idle"])
+
         }
         Component.onDestruction: {
             inputPanel.setDefaultDist()
-            backAction00.enabled = false
-            acceptAction00.enabled = false
+            acceptButton.popRole()
+            cancelButton.popRole()
+
         }
 
         Connections {

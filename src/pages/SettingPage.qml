@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
-
+import "../components"
 Grid{
 
 
@@ -20,9 +20,9 @@ Grid{
         rt02.visible=true
         rt02.enabled=true
         cancelButton.state="invisible"
-        popupLoader.source=""
+        popupLoader.pop()
         popupLoader.state="hide"
-         inputPanel.state="hide"
+        inputPanel.state="hide"
     }
     function holdState(){
          acceptAction01.enabled=false
@@ -36,8 +36,9 @@ Grid{
         height: (parent.height-5*rt02.spacing)/rt02.rows
         title: qsTr("Print Settings")
         onButtonClicked: {
-            popupLoader.source="PrintSettings.qml"
+            popupLoader.push("../pages/PrintSettings.qml")
             popupLoader.state="show"
+
             printSetConn.enabled=true
             holdState()
         }
@@ -48,11 +49,12 @@ Grid{
             enabled:false
             onAccepted:{
                 recoverState()
+                console.log("printAccepted")
                 printSetConn.enabled=false
             }
             onCanceled:{
                 recoverState()
-                 printSetConn.enabled=false
+                printSetConn.enabled=false
             }
         }
     }
@@ -61,7 +63,7 @@ Grid{
         height: (parent.height-5*rt02.spacing)/rt02.rows
         title: qsTr("Time Settings")
         onButtonClicked: {
-            popupLoader.source="TimeSettings.qml"
+             popupLoader.push("../pages/TimeSettings.qml")
             popupLoader.state="show2"
              inputPanel.state="show"
             timeSetConn.enabled=true
@@ -87,10 +89,11 @@ Grid{
         height: (parent.height-5*rt02.spacing)/rt02.rows
         title: qsTr("Default Info Settings")
         onButtonClicked: {
-            popupLoader.source="PatientSet.qml"
+            currInfo=defaultInfoSet
+            popupLoader.push("../pages/PatientSet.qml")
             popupLoader.state="show2"
              inputPanel.state="show"
-           discom.enabled=true
+             discom.enabled=true
             cancelButton.state="idle"
             holdState()
         }
@@ -101,10 +104,9 @@ Grid{
             ignoreUnknownSignals: true
             onAccepted:{
                 recoverState()
-                for(var i=0;i<4;i++){
-                    defaultInfoSet[i]=infoSet[i]
-                }
-                    console.log(infoSet)
+
+                    defaultInfoSet=currInfo
+               //console.log(infoSet)
                 discom.enabled=false
             }
             onCanceled:{
@@ -118,7 +120,7 @@ Grid{
         height: (parent.height-5*rt02.spacing)/rt02.rows
         title: qsTr("Password Settings")
         onButtonClicked: {
-            popupLoader.source="PasswordSettings.qml"
+            popupLoader.push("../pages/PasswordSettings.qml")
             popupLoader.state="show2"
             inputPanel.state="show"
              pascom.enabled=true
@@ -147,7 +149,7 @@ Grid{
         height: (parent.height-5*rt02.spacing)/rt02.rows
         title: qsTr("Other Settings")
         onButtonClicked: {
-            popupLoader.source="OtherSettings.qml"
+            popupLoader.push("../pages/OtherSettings.qml")
             popupLoader.state="show2"
             inputPanel.state="show"
              pascom.enabled=true
@@ -176,14 +178,19 @@ Grid{
         id: acceptAction01
         target: acceptButton
         enabled: false
-        onButtonClicked: {
+        onButtonClicked: {            
             accepted()
+
             acceptAction01.enabled=false
 
         }
     }
     Component.onCompleted: {
-        acceptAction01.enabled=true
 
+        acceptButton.pushRole([ acceptAction01,qsTr("OK"),"idle"])
+
+    }
+    Component.onDestroyed: {
+        acceptButton.popRole()
     }
 }

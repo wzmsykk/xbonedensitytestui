@@ -5,13 +5,47 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
 import com.kp.scan 1.0
-Loader{
+
+Item{
     id:popupLoader
     width: parent.width-2*hMargin
     anchors.leftMargin: hMargin
     anchors.topMargin: vMargin
     anchors.bottomMargin: hMargin
     anchors.rightMargin: vMargin
+    property var item:null
+    property int index: 1
+    readonly property int maxLayer: 10
+    onIndexChanged: {
+
+
+    }
+    onItemChanged: {
+
+    }
+
+    function push(inUrl){
+        if(index<=maxLayer)
+        {
+            index++
+            loaderList.itemAt(index).source=inUrl
+           item=loaderList.itemAt(index).item
+            return 1
+        }else return 0
+    }
+    function pop(){
+        if(index>1){
+             loaderList.itemAt(index).source=""
+            index--
+            item=loaderList.itemAt(index).item
+            console.log("poped")
+            return 1
+
+        }else return 0
+    }
+    function clear(){
+        for(var i=index;i>0;i--)        {pop()}
+    }
 
     state:"hide"
     states: [State {
@@ -53,20 +87,22 @@ Loader{
         anchors.fill: parent
         border.color: "green"
     }
+    Repeater{
+        id:loaderList
+        anchors.fill: parent
+        model: maxLayer
+        delegate: Loader{
+            anchors.fill: parent
+            source: ""
+            z:index
 
-    Connections{
-        target: popupLoader.item
-        ignoreUnknownSignals: true
-        onCanceled:{
-            popupLoader.state="hide"
-            popupLoader.source=""
         }
-        onAccepted:{
-            popupLoader.state="hide"
-            //anchorScript.state="leftbottomshow"
-            popupLoader.source=""
+        Component.onCompleted: {
+            for(var i=1;i<4;i++)
+                console.log(loaderList.itemAt(i))
         }
     }
+
 
 
 
@@ -79,7 +115,9 @@ Loader{
     Behavior on opacity {
         NumberAnimation{}
     }
-    
+    Component.onCompleted: {
+        item=loaderList.itemAt(index).item
+    }
 
     
 }

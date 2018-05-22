@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
 import imageEdit 1.0
+import "../components"
 Grid {
     id: lb02
     columns: 3
@@ -18,7 +19,7 @@ Grid {
     Image {
         id: boneImage
         cache: false
-        source: resultReady?"file:./"+"test2.bmp":"pic/tmp.jpg"
+        source: resultReady?"file:./"+"test2.bmp":"../pic/tmp.jpg"
         width: parent.width / 2-6
         height: parent.height-12
     }
@@ -33,23 +34,26 @@ Grid {
 
     }
     Component.onCompleted: {
-        recover();
+        //recover();
+        acceptButton.pushRole([acceptAction10,qsTr("Edit"),"idle"])
+        cancelButton.pushRole([backAction10,qsTr("Back"),"idle"])
+        thirdButton.pushRole([thirdAction10,qsTr("Selection"),"idle"])
 
     }
+    Component.onDestruction: {
+        acceptButton.popRole()
+         cancelButton.popRole()
+         thirdButton.popRole()
+    }
+
     function recover(){
-        cancelButton.state="idle"
+        popupLoader.pop()
         thirdButton.state="idle"
-        acceptAction10.enabled=true
-        backAction10.enabled=true
-        thirdAction10.enabled=true
-        popupLoader.source=""
         popupLoader.state="hide"
         inputPanel.state="hide"
         ed.enabled=false
         fg.enabled=false
-        acceptButton.text=qsTr("Edit")
-        cancelButton.text=qsTr("Back")
-        thirdButton.text=qsTr("Selection")
+
     }
 
     Connections {
@@ -57,7 +61,7 @@ Grid {
         target: thirdButton
         enabled: false
         onButtonClicked: {
-            popupLoader.source="FingerSettings.qml"
+            popupLoader.push("../pages/FingerSettings.qml")
             popupLoader.item.getFingerVisibles(currentFingerSelection)
             popupLoader.state="show2"
             inputPanel.state="show"
@@ -94,7 +98,7 @@ Grid {
             acceptAction10.enabled=false
             backAction10.enabled=false
              thirdAction10.enabled=false
-            popupLoader.source="PatientSet.qml"
+            popupLoader.push("../pages/PatientSet.qml")
             popupLoader.state="show2"
             inputPanel.state="show"
             ed.enabled=true

@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
-
+import "./components"
 Rectangle{
     id:inputPanel
     width: parent.width*0.4
@@ -92,7 +92,7 @@ Rectangle{
         id:numgrid
         visible: role==="numberial"?true:false
         Repeater{
-            model:["1","2","3","4","5","6","7","8","9","","0","\u232B"]
+            model:["1","2","3","4","5","6","7","8","9","-","0","\u232B"]
             delegate: PanelTile{
                 text: modelData.toString()
                 onTileClicked: {

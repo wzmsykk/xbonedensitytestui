@@ -17,6 +17,36 @@ Rectangle {
     signal buttonClicked()
     border.width: style==="simple"?1:0
     border.color: style==="simple"?primaryColor:"transparent"
+    property var rolestack: [[null,qsTr("OK"),"invisible"]]
+    property int index: 0
+    //var role=[connection name,textString]
+    function pushRole(inRole){
+        if(index>0)rolestack[index][0].enabled=false
+        rolestack.push(inRole)
+        index++
+        text=rolestack[index][1]
+        rolestack[index][0].enabled=true
+        console.log(rolestack[index])
+         if(rolestack[index].length===3) state=rolestack[index][2]
+         return 1
+    }
+   function popRole(){
+       if(index===0)
+       return 0
+       else {
+       rolestack[index][0].enabled=false
+       rolestack.pop()
+        index--
+       text=rolestack[index][1]
+        if(index>=1) rolestack[index][0].enabled=true
+           if(rolestack[index].length===3) state=rolestack[index][2]
+
+       }
+       return 1
+   }
+
+    Behavior on opacity {NumberAnimation{}}
+
     states: [
         State {
             name: "idle"

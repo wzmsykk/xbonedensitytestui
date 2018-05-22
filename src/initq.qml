@@ -1,5 +1,6 @@
 import QtQuick 2.7
 import com.kp.initc 1.0
+import "./components"
 Item {
     id: initq
     anchors.fill: parent
@@ -61,11 +62,13 @@ Item {
                 loadBox.labelText = qsTr(
                             "Self-test succeed.\nWhen the Light is on, LONG PRESS the exposure button to conduct a base scan.")
                 initProc.prepareFirstScan()
+                showTimeSetting()
                  loadBox.enabled = true
+
             } else if (loadBox.state === "firstScanPrepared") {
                 console.log("Light on.")
                 acceptButton.state="idle"
-                acb.enabled=true
+
             } else if (loadBox.state === "timeNotExceeded") {
                 loadBox.labelText = qsTr(
                             "firstscan interrupted, LONG PRESS the button again")
@@ -132,7 +135,28 @@ Item {
                 loadBox.labelText = qsTr("Failure.Error Code%1".arg(cd))
             }
         }
-
+        function showTimeSetting(){
+             popupLoader.push("../pages/TimeSettings.qml")
+            popupLoader.state="show2"
+            inputPanel.state="show"
+            timeconn.enabled=true
+        }
+            Connections{
+                id:timeconn
+                target: popupLoader.item
+                ignoreUnknownSignals: true
+                enabled:false
+                onAccepted:{
+                    popupLoader.pop()
+                    inputPanel.state="hide"
+                    timeconn.enabled=false
+                }
+                onCanceled:{
+                    popupLoader.pop()
+                    inputPanel.state="hide"
+                     timeconn.enabled=false
+                }
+            }
     }
     Timer {
         id: tim2
@@ -163,11 +187,13 @@ Item {
     Connections{
         id:acb
         target:acceptButton
-        enabled:false
+        enabled:true
         onButtonClicked:{
-            acb.enabled=false
+            if(loadBox.state === "firstScanPrepared"
+                    || loadBox.state === "timeNotExceeded"){
             loadBox.state="onScan"
             acceptButton.state="invalid"
+            }
         }
     }
     Component.onCompleted:{
@@ -176,7 +202,9 @@ Item {
         acceptButton.state="invalid"
         acceptButton.pushRole([acb,qsTr("Scan")])
     }
-
+    Component.onDestruction: {
+        acceptButton.popRole()
+    }
 }
 
 

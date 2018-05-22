@@ -6,6 +6,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
 import com.kp.scan 1.0
 import com.kp.settings 1.0
+import "./components"
 ApplicationWindow {
     id: root
     width: 800
@@ -30,12 +31,9 @@ ApplicationWindow {
     property int hiddenSetCount: 0
     function showHiddenSettings(){
         console.log("showed")
-        hiddenLoader.source="HiddenSettings.qml"
+        popupLoader.push("../pages/HiddenSettings.qml")
         hideAction.enabled=false
 
-    }
-    Settings{
-        id:mySettings
     }
 
     AnchorScript {
@@ -66,7 +64,7 @@ ApplicationWindow {
     }
     Loader {
         id: ld
-        z:4
+        z:2
         source: testui ? "" : "initq.qml"
         anchors.top: parent.top
         anchors.left: parent.left
@@ -91,7 +89,7 @@ ApplicationWindow {
         anchors.left: undefined
         anchors.right: parent.right
         anchors.top: parent.top
-        source: ""
+
         z: 6
     }
     Loader{
@@ -102,6 +100,12 @@ ApplicationWindow {
         anchors.top: parent.top
         source: ""
         z:5
+        Connections{
+            target: hiddenLoader.item
+            onAccepted:{
+                hiddenLoader.source=""
+            }
+        }
     }
 
     Item {
@@ -254,7 +258,7 @@ ApplicationWindow {
                     }
                     PropertyChanges{
                         target: lt02
-                        source:"PatientSet.qml"
+                        source:"pages/PatientSet.qml"
                     }
                     StateChangeScript{
 
@@ -296,7 +300,7 @@ ApplicationWindow {
                  enabled:false
                  onAccepted:{
 
-                     popupLoader.source="WorkPage.qml"
+                     popupLoader.push("../pages/WorkPage.qml")
                      popupLoader.state="show"
                      inputPanel.state="hide"
                      waitScanResult.enabled=true
@@ -312,13 +316,13 @@ ApplicationWindow {
                  target: popupLoader.item
                  ignoreUnknownSignals: true
                  onCanceled:{
-                     popupLoader.state="hide"
-                     popupLoader.setSource("")
+                      popupLoader.clear()
                      lt02.item.recoverStates()
                      waitScanResult.enabled=false
                  }
                  onAccepted:{
                      waitScanResult.enabled=false
+                     popupLoader.clear()
                      anchorScript.state="normal"
                      anchorScript.state="leftbottomshow"
 
@@ -369,7 +373,7 @@ ApplicationWindow {
                         target: lb02
                         visible: true
                         opacity:1
-                        source:"ResultPage.qml"
+                        source:"pages/ResultPage.qml"
                     }
                     PropertyChanges {
                         target: lb01
@@ -455,7 +459,7 @@ ApplicationWindow {
                 PropertyChanges {
                     target: rt02
                     visible: true
-                    source:"SettingPage.qml"
+                    source:"pages/SettingPage.qml"
                     opacity:1
                 }
                 PropertyChanges {

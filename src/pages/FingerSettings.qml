@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
-
+import "../components"
 Grid{
     anchors.fill: parent
     columns: 1
@@ -54,17 +54,18 @@ Grid{
 
     Component.onCompleted: {
         inputPanel.role="selection"
-          inputPanel.targetDist=ps01
-            ps01.forceActiveFocus()
-          cancelButton.state="idle"
-
+        inputPanel.targetDist=ps01
+        ps01.forceActiveFocus()
+          cancelButton.pushRole([cancel,qsTr("cancel"),"idle"])
+           acceptButton.pushRole([accept,qsTr("accept"),"idle"])
     }
     function recover(){
         inputPanel.setDefaultDist();
     }
 
     Component.onDestruction: {
-
+         cancelButton.popRole()
+        acceptButton.popRole()
     }
 
     Connections{

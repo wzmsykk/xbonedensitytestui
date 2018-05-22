@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
-
+import "../components"
 Grid{
     anchors.fill: parent
     columns: 1
@@ -35,12 +35,14 @@ Grid{
     Component.onCompleted: {
         inputPanel.role="numberial"
             inputPanel.targetDist=ps01
-
-          cancelButton.state="idle"
+        cancelButton.pushRole([cancel,qsTr("cancel"),"idle"])
+        acceptButton.pushRole([accept,qsTr("accept"),"idle"])
 
     }
     Component.onDestruction: {
              inputPanel.setDefaultDist()
+        cancelButton.popRole()
+       acceptButton.popRole()
     }
 
     Connections{

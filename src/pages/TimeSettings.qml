@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
 import com.kp.settings 1.0
+import "../components"
 Grid {
     id: ts
     anchors.fill: parent
@@ -178,14 +179,14 @@ function setTimeText(){
 
         inputPanel.role = "numberial"
         inputPanel.targetDist = ps01
-
-        cancelButton.state = "idle"
+        acceptButton.pushRole([accept,qsTr("Next"),"idle"])
+        cancelButton.pushRole([cancel, qsTr("Cancel"),"idle"])
 
     }
     Component.onDestruction: {
         inputPanel.setDefaultDist()
-
-        cancelButton.state = "invisible"
+        acceptButton.popRole()
+        cancelButton.popRole()
     }
 
     Connections {

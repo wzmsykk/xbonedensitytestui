@@ -14,25 +14,33 @@ Rectangle {
     state: "invisible"
     property alias text: label1.text
     signal buttonClicked()
-    property var rolestack: []
+    property var rolestack: [[null,qsTr("OK"),"invisible"]]
+    property int index: 0
     //var role=[connection name,textString]
     function pushRole(inRole){
-        if(rolestack.length>0)rolestack[rolestack.length-1][0].enabled=false
+        if(index>0)rolestack[index][0].enabled=false
         rolestack.push(inRole)
-        text=rolestack[rolestack.length-1][1]
-        rolestack[rolestack.length-1][0].enabled=true
+        console.log(inRole)
+        index++
+        text=rolestack[index][1]
+        rolestack[index][0].enabled=true
+
+         if(rolestack[index].length===3) state=rolestack[index][2]
+         return 1
     }
    function popRole(){
-       if(rolestack.length<=0) return 0
-       else if(rolestack.length>=1){
-       rolestack[rolestack.length-1][0].enabled=false
+       if(index===0)
+       return 0
+       else {
+       rolestack[index][0].enabled=false
        rolestack.pop()
-           if(rolestack.length>=2){
-       text=rolestack[rolestack.length-1]
-       rolestack[rolestack.length-1][0].enabled=true
-           }
+        index--
+       text=rolestack[index][1]
+        if(index>=1) rolestack[index][0].enabled=true
+           if(rolestack[index].length===3) state=rolestack[index][2]
+
        }
-       return 2
+       return 1
    }
 
     Behavior on opacity {NumberAnimation{}}

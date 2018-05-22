@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
-
+import "../components"
 Grid{
     anchors.fill: parent
     columns: 1
@@ -60,10 +60,16 @@ Grid{
         loadOtherSettings()
             inputPanel.role="selection"
             ps01.forceFocus()
-          cancelButton.state="idle"
+        cancelButton.pushRole([cancel,qsTr("cancel"),"idle"])
+        acceptButton.pushRole([accept,qsTr("accept"),"idle"])
 
 
     }
+    Component.onDestruction: {
+        cancelButton.popRole()
+       acceptButton.popRole()
+    }
+
     Connections{
         id:accept
         target: acceptButton

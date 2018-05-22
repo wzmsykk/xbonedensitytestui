@@ -9,7 +9,7 @@ Settings::Settings(QObject *parent):
     ,m_color(0)
   ,m_password(0)
   ,m_pswExist(false)
-  ,m_byteUsed(0)
+  ,m_byteUsed(1)
   ,m_gain(0)
   ,m_expcount(0)
   ,m_accmu(0)
@@ -95,12 +95,12 @@ void Settings::setPswExist(bool bol){
 
 
 
-int Settings::byteUsed(){return 0;}
+int Settings::byteUsed(){return m_byteUsed;}
 
-int Settings::checkSum(){return 0;}
-int Settings::PMTValue(){return 0;}
-int Settings::zoffset(){return 0;}
-int Settings::toffset(){return 0;}
+int Settings::checkSum(){return 1;}
+int Settings::PMTValue(){return 3;}
+int Settings::zoffset(){return 4;}
+int Settings::toffset(){return 5;}
 int Settings::gain(){return m_gain;}
 void Settings::setGain(int gain){m_gain=gain;}
 int Settings::offset(){return 0;}

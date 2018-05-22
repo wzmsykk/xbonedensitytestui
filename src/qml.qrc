@@ -1,13 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>InitBox.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>initq.qml</file>
-        <file>ScanProgress.qml</file>
         <file>pic/tmp.jpg</file>
         <file>newMain.qml</file>
-        <file>FuzzyPanel.qml</file>
-        <file>pic/timg.jpg</file>
         <file>initc.cpp</file>
         <file>initc.h</file>
         <file>main.cpp</file>
@@ -17,35 +13,41 @@
         <file>settings.h</file>
         <file>pic/timg2.jpg</file>
         <file>pic/timg3.jpg</file>
-        <file>CancelButton.qml</file>
-        <file>AcceptButton.qml</file>
-        <file>FuzzyPanelx.qml</file>
         <file>InputPanel.qml</file>
-        <file>PanelTile.qml</file>
-        <file>AnchorScript.qml</file>
-        <file>FlatTextField.qml</file>
         <file>pic/timg4.jpg</file>
         <file>svgedit.cpp</file>
         <file>svgedit.h</file>
         <file>icons/00.svg</file>
         <file>icons/01.svg</file>
-        <file>FlatSelection.qml</file>
         <file>icons/03.svg</file>
         <file>icons/02.svg</file>
-        <file>FlatSpinBox.qml</file>
-        <file>FlatButton.qml</file>
-        <file>PatientSet.qml</file>
-        <file>WorkPage.qml</file>
-        <file>PopupLoader.qml</file>
-        <file>SettingPage.qml</file>
-        <file>PrintSettings.qml</file>
-        <file>TimeSettings.qml</file>
-        <file>ResultPage.qml</file>
-        <file>PasswordSettings.qml</file>
-        <file>FlatPasswordTextField.qml</file>
-        <file>OtherSettings.qml</file>
         <file>zh_cn.qm</file>
-        <file>FingerSettings.qml</file>
-        <file>HiddenSettings.qml</file>
+        <file>pic/timg.jpg</file>
+        <file>components/AcceptButton.qml</file>
+        <file>components/AnchorScript.qml</file>
+        <file>components/CancelButton.qml</file>
+        <file>components/FlatButton.qml</file>
+        <file>components/FlatPasswordTextField.qml</file>
+        <file>components/FlatSelection.qml</file>
+        <file>components/FlatSpinBox.qml</file>
+        <file>components/FlatTextField.qml</file>
+        <file>components/FuzzyPanel.qml</file>
+        <file>components/FuzzyPanelx.qml</file>
+        <file>components/InitBox.qml</file>
+        <file>components/PanelTile.qml</file>
+        <file>components/PopupLoader.qml</file>
+        <file>lib/createbmp.h</file>
+        <file>lib/generatelcd.h</file>
+        <file>pages/FingerSettings.qml</file>
+        <file>pages/HiddenSettings.qml</file>
+        <file>pages/OtherSettings.qml</file>
+        <file>pages/PasswordSettings.qml</file>
+        <file>pages/PatientSet.qml</file>
+        <file>pages/PrintSettings.qml</file>
+        <file>pages/ResultPage.qml</file>
+        <file>pages/SettingPage.qml</file>
+        <file>pages/TimeSettings.qml</file>
+        <file>pages/WorkPage.qml</file>
+        <file>pages/NVRamSettings.qml</file>
     </qresource>
 </RCC>
