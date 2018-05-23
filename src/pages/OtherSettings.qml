@@ -36,7 +36,7 @@ Grid{
         }
 
     }
-    FlatTextField{
+    /*FlatTextField{
         id:ps03
         title: qsTr("code")
         validator: IntValidator{
@@ -50,7 +50,7 @@ Grid{
             inputPanel.role="numberial"
 
         }
-    }
+    }*/
     function loadOtherSettings(){
          if(style==="simple") {ps02.index=0}else{ps02.index=1}
 

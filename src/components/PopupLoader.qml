@@ -24,6 +24,10 @@ Item{
     onItemChanged: {
 
     }
+    function currItem(){
+        console.log(loaderList.itemAt(index).source)
+        return loaderList.itemAt(index).item
+    }
     function applyState(instate){
         if(instate==="show2") {
             state=instate
@@ -72,6 +76,7 @@ Item{
     function clear(){
         for(var i=index;i>0;i--)        {pop()}
     }
+
 
     state:"hide"
     states: [State {
@@ -147,6 +152,15 @@ Item{
         item=loaderList.itemAt(index).item
     }
 
-    
+    /*Connections{
+        target: popupLoader.item
+        ignoreUnknownSignals: true
+        onAccepted:{
+            popupLoader.pop()
+        }
+        onCanceled:{
+            popupLoader.pop()
+        }
+    }*/
 }
 

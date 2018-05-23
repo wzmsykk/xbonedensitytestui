@@ -59,5 +59,6 @@
         <file>pages/KeyBoardTest.qml</file>
         <file>pages/DialogPage.qml</file>
         <file>pages/NVRamSets2.qml</file>
+        <file>pages/LCDTest.qml</file>
     </qresource>
 </RCC>

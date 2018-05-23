@@ -137,6 +137,7 @@ FuzzyPanel {
             title: qsTr("NVRam")
             onButtonClicked: {
                 popupLoader.push("../pages/NVRamSettings.qml","show2")
+                printSetConn.target=popupLoader.currItem()
                 printSetConn.enabled = true
                 //holdState()
             }
@@ -185,6 +186,7 @@ FuzzyPanel {
             title: qsTr("Scan")
             onButtonClicked: {
                 popupLoader.push("../pages/ScanSettings.qml","show")
+                 timeSetConn.target=popupLoader.currItem()
                 timeSetConn.enabled = true
                 //holdState()
             }
@@ -210,7 +212,7 @@ FuzzyPanel {
             onButtonClicked: {
                popupLoader.push("../pages/FrontPanelSet.qml","show")
                 discom.enabled = true
-
+                 discom.target=popupLoader.currItem()
                 holdState()
             }
             Connections {
@@ -238,7 +240,7 @@ FuzzyPanel {
             title: qsTr("PrintManuf.Report")
             onButtonClicked: {
                 popupLoader.push("../pages/PrintReport.qml","show")
-
+                 printSetConn.target=popupLoader.currItem()
                 pascom.enabled = true
                 //holdState()
             }
@@ -256,6 +258,7 @@ FuzzyPanel {
                 onCanceled: {
                     recoverState()
                     pascom.enabled = false
+                    console.log("pasxcomcanceled")
                 }
             }
         }

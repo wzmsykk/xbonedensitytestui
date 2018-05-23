@@ -30,6 +30,7 @@ Grid {
         height: (parent.height - parent.spacing * 5) / 3
         onButtonClicked: {
             popupLoader.push("../pages/AutoScanEng.qml","show2")
+            ps01c.target=popupLoader.currItem()
             ps01c.enabled=true
         }
         Connections{
@@ -51,6 +52,7 @@ Grid {
         height: (parent.height - parent.spacing * 5) / 3
         onButtonClicked: {
             popupLoader.push("../pages/RegularAutoScan.qml","show2")
+            ps02c.target=popupLoader.currItem()
             ps02c.enabled=true
         }
         Connections{
@@ -71,6 +73,7 @@ Grid {
         height: (parent.height - parent.spacing * 5) / 3
         onButtonClicked: {
             popupLoader.push("../pages/FinalScanRep.qml","show2")
+            ps03c.target=popupLoader.currItem()
             ps03c.enabled=true
         }
         Connections{

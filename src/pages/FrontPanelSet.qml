@@ -36,7 +36,8 @@ Grid {
         width: (parent.width - parent.spacing * 3) / 2
         height: (parent.height - parent.spacing * 5) / 3
         onButtonClicked: {
-            popupLoader.push("../pages/AutoScanEng.qml","show2")
+            popupLoader.push("../pages/LCDTest.qml","show")
+            ps01c.target=popupLoader.currItem()
             ps01c.enabled=true
         }
         Connections{
@@ -45,6 +46,9 @@ Grid {
             enabled:false
             ignoreUnknownSignals: true
             onCanceled:{
+                popupLoader.pop()
+            }
+            onAccepted:{
                 popupLoader.pop()
             }
         }
@@ -76,6 +80,7 @@ Grid {
         height: (parent.height - parent.spacing * 5) / 3
         onButtonClicked: {
             popupLoader.push("../pages/KeyBoardTest.qml","show")
+            ps03c.target=popupLoader.currItem()
             ps03c.enabled=true
         }
         Connections{
@@ -84,6 +89,10 @@ Grid {
             enabled:false
             ignoreUnknownSignals: true
             onCanceled:{
+                console.log("ps03cpop")
+                popupLoader.pop()
+            }
+            onAccepted:{
                 popupLoader.pop()
             }
         }
