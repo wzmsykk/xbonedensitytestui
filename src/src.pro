@@ -32,7 +32,8 @@ DISTFILES += zh_cn.ts \
     zh_cn.ts \
     input_data \
     lcdroi \
-    lcd
+    lcd \
+    pages/NVRamSet2.qml
 
 HEADERS += \
     initc.h \

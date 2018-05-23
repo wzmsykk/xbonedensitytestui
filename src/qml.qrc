@@ -49,5 +49,14 @@
         <file>pages/TimeSettings.qml</file>
         <file>pages/WorkPage.qml</file>
         <file>pages/NVRamSettings.qml</file>
+        <file>pages/SettingTemplate.qml</file>
+        <file>pages/ScanSettings.qml</file>
+        <file>pages/RegularAutoScan.qml</file>
+        <file>pages/AutoScanEng.qml</file>
+        <file>pages/FinalScanRep.qml</file>
+        <file>pages/FrontPanelSet.qml</file>
+        <file>pages/PrintReport.qml</file>
+        <file>pages/KeyBoardTest.qml</file>
+        <file>pages/DialogPage.qml</file>
     </qresource>
 </RCC>

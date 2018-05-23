@@ -29,6 +29,7 @@ Rectangle{
     function applyKey(inkey){
 
         if(targetDist!=null){
+            if(targetDist.enabled===false)  return 0
             if(inkey==="\u232B")
             {targetDist.content.remove(targetDist.content.length-1,targetDist.content.length)}
 

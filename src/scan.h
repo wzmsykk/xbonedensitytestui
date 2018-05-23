@@ -25,6 +25,7 @@ class Scan:public QObject
 public:
     Scan();
     ~Scan();
+   // Q_INVOKABLE int engineScan();
 public slots:
     void cancelScan();
     void cancelPerperation();

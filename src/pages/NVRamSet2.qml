@@ -26,69 +26,14 @@ FuzzyPanel {
         myl.clear()
 
         myl.append({
-                       name: qsTr("ByteUsed"),
-                       num: mySet.byteUsed.toString()
+                       name: qsTr("ExpCount"),
+                       num: mySet.expcount.toString()
                    })
         myl.append({
-                       name: qsTr("CheckSum"),
-                       num: mySet.checkSum.toString()
+                       name: qsTr("Accmu"),
+                       num: mySet.accmu.toString()
                    })
-        myl.append({
-                       name: qsTr("PMTValue"),
-                       num: mySet.PMTValue.toString()
-                   })
-        myl.append({
-                       name: qsTr("T-offset"),
-                       num: mySet.toffset.toString()
-                   })
-        myl.append({
-                       name: qsTr("Z-offset"),
-                       num: mySet.zoffset.toString()
-                   })
-        myl.append({
-                       name: qsTr("Gain"),
-                       num: mySet.gain.toString()
-                   })
-        myl.append({
-                       name: qsTr("Offset"),
-                       num: mySet.offset.toString()
-                   })
-        myl.append({
-                       name: qsTr("AvgMu"),
-                       num: mySet.avgmu.toString()
-                   })
-        myl.append({
-                       name: qsTr("SerialNum."),
-                       num: mySet.serial.toString()
-                   })
-        myl.append({
-                       name: qsTr("S/W Ver."),
-                       num: mySet.sver.toString()
-                   })
-        myl.append({
-                       name: qsTr("DB Ver."),
-                       num: mySet.dver.toString()
-                   })
-        myl.append({
-                       name: qsTr("BMD #1"),
-                       num: mySet.bmd1.toString()
-                   })
-        myl.append({
-                       name: qsTr("BMD #2"),
-                       num: mySet.bmd2.toString()
-                   })
-        myl.append({
-                       name: qsTr("BMD #3"),
-                       num: mySet.bmd3.toString()
-                   })
-        myl.append({
-                       name: qsTr("SNR"),
-                       num: mySet.snr.toString()
-                   })
-        myl.append({
-                       name: qsTr("Mu"),
-                       num: mySet.mu.toString()
-                   })
+
     }
 
     Grid {
@@ -99,11 +44,6 @@ FuzzyPanel {
         columns: 2
         rows: 8
         flow: Grid.TopToBottom
-        property var customData: ListModel {
-            ListElement {
-                name: qsTr("Byte")
-            }
-        }
 
         property int childWidth: (width - (spacing + 2) * columns) / columns
         property int childHeight: (height - (spacing + 2) * rows) / rows
@@ -134,7 +74,7 @@ FuzzyPanel {
         FlatButton {
             width: parent.childWidth
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
-            title: qsTr("NVRam")
+            title: qsTr("CorruptNVRAM")
             onButtonClicked: {
                 popupLoader.push("../pages/NVRamSettings.qml","show2")
                 printSetConn.enabled = true
@@ -158,7 +98,7 @@ FuzzyPanel {
         FlatButton {
             width: parent.childWidth
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
-            title: qsTr("Scan")
+            title: qsTr("Reset NVRAM")
             onButtonClicked: {
                 popupLoader.push("../pages/ScanSettings.qml","show")
                 timeSetConn.enabled = true
@@ -182,7 +122,7 @@ FuzzyPanel {
         FlatButton {
             width: parent.childWidth
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
-            title: qsTr("FrontPanel")
+            title: qsTr("Clear Drift Mu Counter")
             onButtonClicked: {
                popupLoader.push("../pages/FrontPanelSet.qml","show")
                 discom.enabled = true
@@ -208,34 +148,7 @@ FuzzyPanel {
                 }
             }
         }
-        FlatButton {
-            width: parent.childWidth
-            height: (parent.height - 5 * rt02.spacing) / rt02.rows
-            title: qsTr("PrintManuf.Report")
-            onButtonClicked: {
-                popupLoader.push("../pages/PrintReport.qml","show")
 
-                pascom.enabled = true
-                //holdState()
-            }
-            Connections {
-                id: pascom
-                enabled: false
-                target: popupLoader.item
-                ignoreUnknownSignals: true
-                onAccepted: {
-                    recoverState()
-
-                    console.log("pasxcom")
-                    pascom.enabled = false
-                }
-                onCanceled: {
-                    recoverState()
-                    pascom.enabled = false
-                }
-            }
-        }
-    }
     Connections {
         id: acceptAction01
         target: acceptButton

@@ -5,12 +5,13 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.3
 Rectangle{
     id: rectangle
-
+    enabled: editable
     property alias content: ftf
     property alias title: label.text
     property string types: "text"
-    property var model: [ftf.text]
+    readonly property var model: [ftf.text]
     property int index: 0
+    property bool editable: true
     property alias validator: ftf.validator
     signal focused()
     implicitWidth: 200
@@ -24,6 +25,7 @@ Rectangle{
     }
 
     MouseArea{
+        enabled: editable
         anchors.fill: parent
         onClicked: {
             ftf.focus=true
@@ -49,7 +51,7 @@ Rectangle{
     }
 
     TextField{
-
+        enabled: editable
         id:ftf
         height: parent.height*0.4
         font.pixelSize: 40
@@ -70,10 +72,7 @@ Rectangle{
 
 
         }
-        validator: IntValidator{
-            bottom: 0
-            top:99
-        }
+
 
     }
 }
