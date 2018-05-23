@@ -16,19 +16,15 @@ Grid{
     padding: 6
     signal accepted()
     function recoverState(){
-        acceptAction01.enabled=true
-        rt02.visible=true
-        rt02.enabled=true
-        cancelButton.state="invisible"
         popupLoader.pop()
         popupLoader.state="hide"
         inputPanel.state="hide"
     }
     function holdState(){
-         acceptAction01.enabled=false
+        // acceptAction01.enabled=false
 
-        rt02.visible=false
-        rt02.enabled=false
+        //rt02.visible=false
+        //rt02.enabled=false
     }
 
     FlatButton {
@@ -63,9 +59,7 @@ Grid{
         height: (parent.height-5*rt02.spacing)/rt02.rows
         title: qsTr("Time Settings")
         onButtonClicked: {
-             popupLoader.push("../pages/TimeSettings.qml")
-            popupLoader.state="show2"
-             inputPanel.state="show"
+             popupLoader.push("../pages/TimeSettings.qml","show2")
             timeSetConn.enabled=true
             holdState()
         }
@@ -90,9 +84,7 @@ Grid{
         title: qsTr("Default Info Settings")
         onButtonClicked: {
             currInfo=defaultInfoSet
-            popupLoader.push("../pages/PatientSet.qml")
-            popupLoader.state="show2"
-             inputPanel.state="show"
+            popupLoader.push("../pages/PatientSet.qml","show2")
              discom.enabled=true
             cancelButton.state="idle"
             holdState()
@@ -120,9 +112,8 @@ Grid{
         height: (parent.height-5*rt02.spacing)/rt02.rows
         title: qsTr("Password Settings")
         onButtonClicked: {
-            popupLoader.push("../pages/PasswordSettings.qml")
-            popupLoader.state="show2"
-            inputPanel.state="show"
+            popupLoader.push("../pages/PasswordSettings.qml","show2")
+
              pascom.enabled=true
             cancelButton.state="idle"
             holdState()
@@ -149,9 +140,7 @@ Grid{
         height: (parent.height-5*rt02.spacing)/rt02.rows
         title: qsTr("Other Settings")
         onButtonClicked: {
-            popupLoader.push("../pages/OtherSettings.qml")
-            popupLoader.state="show2"
-            inputPanel.state="show"
+            popupLoader.push("../pages/OtherSettings.qml","show2")
              pascom.enabled=true
             cancelButton.state="idle"
             holdState()
@@ -178,19 +167,17 @@ Grid{
         id: acceptAction01
         target: acceptButton
         enabled: false
-        onButtonClicked: {            
+        onButtonClicked: {
             accepted()
-
-            acceptAction01.enabled=false
 
         }
     }
     Component.onCompleted: {
 
-        acceptButton.pushRole([ acceptAction01,qsTr("OK"),"idle"])
+        acceptButton.pushRole([acceptAction01,qsTr("OK"),"idle"])
 
     }
-    Component.onDestroyed: {
+    Component.onDestruction: {
         acceptButton.popRole()
     }
 }

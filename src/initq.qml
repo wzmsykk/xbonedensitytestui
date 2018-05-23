@@ -136,9 +136,9 @@ Item {
             }
         }
         function showTimeSetting(){
-             popupLoader.push("../pages/TimeSettings.qml")
-            popupLoader.state="show2"
-            inputPanel.state="show"
+            popupLoader.push("../pages/TimeSettings.qml","show2")
+
+            timeconn.target=popupLoader.item
             timeconn.enabled=true
         }
             Connections{

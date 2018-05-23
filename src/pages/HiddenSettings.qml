@@ -145,8 +145,7 @@ FuzzyPanel {
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
             title: qsTr("NVRam")
             onButtonClicked: {
-                popupLoader.push("../pages/NVRamSettings.qml")
-                popupLoader.state = "show"
+                popupLoader.push("../pages/NVRamSettings.qml","show")
                 printSetConn.enabled = true
                 //holdState()
             }
@@ -172,9 +171,7 @@ FuzzyPanel {
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
             title: qsTr("Scan")
             onButtonClicked: {
-                popupLoader.push("../pages/ScanSettings.qml")
-                popupLoader.state = "show2"
-                inputPanel.state = "show"
+                popupLoader.push("../pages/ScanSettings.qml","show2")
                 timeSetConn.enabled = true
                 //holdState()
             }
@@ -198,9 +195,7 @@ FuzzyPanel {
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
             title: qsTr("FrontPanel")
             onButtonClicked: {
-               popupLoader.push("../pages/FrontPanelSet.qml")
-                popupLoader.state = "show2"
-                inputPanel.state = "show"
+               popupLoader.push("../pages/FrontPanelSet.qml","show2")
                 discom.enabled = true
                 cancelButton.state = "idle"
                 holdState()
@@ -229,9 +224,8 @@ FuzzyPanel {
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
             title: qsTr("PrintManuf.Report")
             onButtonClicked: {
-                popupLoader.push("../pages/PrintReport.qml")
-                popupLoader.state = "show2"
-                inputPanel.state = "show"
+                popupLoader.push("../pages/PrintReport.qml","show2")
+
                 pascom.enabled = true
                 cancelButton.state = "idle"
                 //holdState()
@@ -261,7 +255,9 @@ FuzzyPanel {
         onButtonClicked: {
 
             acceptButton.popRole()
+            cancelButton.popRole()
             acceptAction01.enabled = false
+
             accepted()
         }
     }
@@ -269,6 +265,7 @@ FuzzyPanel {
         acceptAction01.enabled = true        
         genInfoList()
         acceptButton.pushRole([acceptAction01, qsTr("Accept"),"idle"])
+        cancelButton.pushRole([null,null,"invisible"])
     }
 
 }

@@ -15,6 +15,7 @@ Item{
     anchors.rightMargin: vMargin
     property var item:null
     property int index: 1
+
     readonly property int maxLayer: 10
     onIndexChanged: {
 
@@ -23,20 +24,45 @@ Item{
     onItemChanged: {
 
     }
+    function applyState(instate){
+        if(instate==="show2") {
+            state=instate
+            inputPanel.state="show"
+        }else if(instate==="show"){
+            state=instate
+            inputPanel.state="hide"
+        }else if(instate===undefined){
+            state="show"
+        }
+        else state=instate
+    }
 
-    function push(inUrl){
+    function push(inUrl,state){
+
         if(index<=maxLayer)
         {
+
             index++
             loaderList.itemAt(index).source=inUrl
            item=loaderList.itemAt(index).item
+            console.log(inUrl,state)
+            if(state!==undefined) {
+                applyState(state)
+                loaderList.itemAt(index).state=state
+            }else{
+                applyState("show")
+                loaderList.itemAt(index).state="show"
+            }
+
             return 1
         }else return 0
     }
     function pop(){
         if(index>1){
-             loaderList.itemAt(index).source=""
+
+            loaderList.itemAt(index).source=""
             index--
+            applyState(loaderList.itemAt(index).state)
             item=loaderList.itemAt(index).item
             console.log("poped")
             return 1
@@ -81,6 +107,7 @@ Item{
                 target: popupLoader
                 opacity:1
             }
+
         }]
     Rectangle{
         visible: false
@@ -95,6 +122,7 @@ Item{
             anchors.fill: parent
             source: ""
             z:index
+            property string state:"show"
 
         }
         Component.onCompleted: {

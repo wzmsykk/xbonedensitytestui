@@ -18,12 +18,12 @@ Rectangle {
     property int index: 0
     //var role=[connection name,textString]
     function pushRole(inRole){
-        if(index>0)rolestack[index][0].enabled=false
+        if(index>0&&rolestack[index][0]!=null)rolestack[index][0].enabled=false
         rolestack.push(inRole)
         console.log(inRole)
         index++
-        text=rolestack[index][1]
-        rolestack[index][0].enabled=true
+        if(rolestack[index][1]!=null) text=rolestack[index][1]
+         if(rolestack[index][0]!=null) rolestack[index][0].enabled=true
 
          if(rolestack[index].length===3) state=rolestack[index][2]
          return 1
@@ -32,11 +32,11 @@ Rectangle {
        if(index===0)
        return 0
        else {
-       rolestack[index][0].enabled=false
+       if(rolestack[index][0]!=null) rolestack[index][0].enabled=false
        rolestack.pop()
         index--
-       text=rolestack[index][1]
-        if(index>=1) rolestack[index][0].enabled=true
+       if(rolestack[index][1]!=null) text=rolestack[index][1]
+        if(index>=1&&rolestack[index][0]!=null) rolestack[index][0].enabled=true
            if(rolestack[index].length===3) state=rolestack[index][2]
 
        }

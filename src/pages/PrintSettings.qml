@@ -32,14 +32,14 @@ Grid {
         width: parent.width - 2 * padding
     }
     Component.onCompleted: {
-        acceptButton.pushRole([acceptAction00,qsTr("Next"),"idle"])
-        cancelButton.pushRole([backAction00,qsTr("Cancel"),"idle"])
+        acceptButton.pushRole([accept,qsTr("Next"),"idle"])
+        cancelButton.pushRole([cancel,qsTr("Cancel"),"idle"])
         ps01.index = printSet[0]
         ps02.index = printSet[1]
         ps03.index = printSet[2]
 
     }
-    Component.onDestroyed: {
+    Component.onDestruction: {
         acceptButton.popRole()
         cancelButton.popRole()
     }
@@ -52,8 +52,6 @@ Grid {
             printSet[0] = ps01.index
             printSet[1] = ps02.index
             printSet[3] = ps03.index
-
-            acceptButton.popRole()
             accepted()
             accept.enabled = false
         }
@@ -63,7 +61,6 @@ Grid {
         target: cancelButton
         enabled: true
         onButtonClicked: {
-            acceptButton.popRole()
             canceled()
             cancel.enabled = false
         }

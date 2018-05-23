@@ -57,7 +57,7 @@ Grid{
         inputPanel.targetDist=ps01
         ps01.forceActiveFocus()
           cancelButton.pushRole([cancel,qsTr("cancel"),"idle"])
-           acceptButton.pushRole([accept,qsTr("accept"),"idle"])
+          acceptButton.pushRole([accept,qsTr("accept"),"idle"])
     }
     function recover(){
         inputPanel.setDefaultDist();
