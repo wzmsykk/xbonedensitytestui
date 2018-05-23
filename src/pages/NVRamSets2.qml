@@ -76,7 +76,8 @@ FuzzyPanel {
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
             title: qsTr("CorruptNVRAM")
             onButtonClicked: {
-                popupLoader.push("../pages/NVRamSettings.qml","show2")
+                popupLoader.push("../pages/DialogPage.qml","show")
+                popupLoader.item.text=qsTr("Are you sure want to corrupt the NVRAM?")
                 printSetConn.enabled = true
                 //holdState()
             }
@@ -85,11 +86,11 @@ FuzzyPanel {
                 target: popupLoader.item
                 ignoreUnknownSignals: true
                 enabled: false
-                onAccepted: {
+                onAccept: {
                     recoverState()
                     printSetConn.enabled = false
                 }
-                onCanceled: {
+                onCancel: {
                     recoverState()
                     printSetConn.enabled = false
                 }
@@ -100,7 +101,8 @@ FuzzyPanel {
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
             title: qsTr("Reset NVRAM")
             onButtonClicked: {
-                popupLoader.push("../pages/ScanSettings.qml","show")
+                popupLoader.push("../pages/DialogPage.qml","show")
+                popupLoader.item.text=qsTr("Are you sure want to reset the NVRAM?")
                 timeSetConn.enabled = true
                 //holdState()
             }
@@ -109,11 +111,11 @@ FuzzyPanel {
                 target: popupLoader.item
                 ignoreUnknownSignals: true
                 enabled: false
-                onAccepted: {
+                onAccept: {
                     recoverState()
                     timeSetConn.enabled = false
                 }
-                onCanceled: {
+                onCancel: {
                     recoverState()
                     timeSetConn.enabled = false
                 }
@@ -124,7 +126,8 @@ FuzzyPanel {
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
             title: qsTr("Clear Drift Mu Counter")
             onButtonClicked: {
-               popupLoader.push("../pages/FrontPanelSet.qml","show")
+                popupLoader.push("../pages/DialogPage.qml","show")
+                popupLoader.item.text=qsTr("Are you sure want to clear the Mu counter?")
                 discom.enabled = true
 
                 holdState()
@@ -134,29 +137,25 @@ FuzzyPanel {
                 enabled: false
                 target: popupLoader.item
                 ignoreUnknownSignals: true
-                onAccepted: {
+                onAccept: {
+
                     recoverState()
-                    for (var i = 0; i < 4; i++) {
-                        defaultInfoSet[i] = infoSet[i]
-                    }
-                    console.log(infoSet)
                     discom.enabled = false
                 }
-                onCanceled: {
+                onCancel: {
                     recoverState()
                     discom.enabled = false
                 }
             }
         }
-
+}
     Connections {
         id: acceptAction01
         target: acceptButton
         enabled: false
         onButtonClicked: {
 
-            acceptButton.popRole()
-            cancelButton.popRole()
+
             acceptAction01.enabled = false
 
             accepted()
@@ -167,6 +166,10 @@ FuzzyPanel {
         genInfoList()
         acceptButton.pushRole([acceptAction01, qsTr("Accept"),"idle"])
         cancelButton.pushRole([null,null,"invisible"])
+    }
+    Component.onDestruction: {
+        acceptButton.popRole()
+        cancelButton.popRole()
     }
 
 }

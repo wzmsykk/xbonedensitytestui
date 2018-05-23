@@ -158,6 +158,30 @@ FuzzyPanel {
         FlatButton {
             width: parent.childWidth
             height: (parent.height - 5 * rt02.spacing) / rt02.rows
+            title: qsTr("NVRam2")
+            onButtonClicked: {
+                popupLoader.push("../pages/NVRamSets2.qml","show")
+                nvs2.enabled = true
+                //holdState()
+            }
+            Connections {
+                id: nvs2
+                target: popupLoader.item
+                ignoreUnknownSignals: true
+                enabled: false
+                onAccepted: {
+                    recoverState()
+                   nvs2.enabled = false
+                }
+                onCanceled: {
+                    recoverState()
+                    nvs2.enabled = false
+                }
+            }
+        }
+        FlatButton {
+            width: parent.childWidth
+            height: (parent.height - 5 * rt02.spacing) / rt02.rows
             title: qsTr("Scan")
             onButtonClicked: {
                 popupLoader.push("../pages/ScanSettings.qml","show")

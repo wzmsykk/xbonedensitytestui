@@ -58,5 +58,6 @@
         <file>pages/PrintReport.qml</file>
         <file>pages/KeyBoardTest.qml</file>
         <file>pages/DialogPage.qml</file>
+        <file>pages/NVRamSets2.qml</file>
     </qresource>
 </RCC>

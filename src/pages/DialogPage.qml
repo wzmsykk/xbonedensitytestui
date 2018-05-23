@@ -8,24 +8,24 @@ FuzzyPanel {
     anchors.fill: parent
     implicitHeight: 480
     implicitWidth: 600
-    signal accepted
-    signal canceled
+    signal accept
+    signal cancel
     target: backGImage
     property alias title: title.text
     property alias text: text.text
 
-    Grid{
+    Column{
 
         id:rt02
         anchors.fill: parent
-        columns: 2
-        rows:3
+        //columns: 2
+        //rows:3
         spacing: 6
         padding: 6
         Text {
             id: title
 
-            text: qsTr("title")
+            text: qsTr("Query Dialog")
         }
         Text {
             id: text
@@ -34,7 +34,7 @@ FuzzyPanel {
         }
     }
     Connections {
-        id: accept
+        id: acceptaction
         target: acceptButton
         enabled: false
         onButtonClicked: {
@@ -43,11 +43,11 @@ FuzzyPanel {
             //cancelButton.popRole()
             //acceptAction01.enabled = false
 
-            accepted()
+            accept()
         }
     }
     Connections {
-        id: cancel
+        id: cancelaction
         target: cancelButton
         enabled: false
         onButtonClicked: {
@@ -56,14 +56,14 @@ FuzzyPanel {
             //cancelButton.popRole()
             //acceptAction01.enabled = false
 
-            canceled()
+            cancel()
         }
     }
     Component.onCompleted: {
 
         //ps01.forceFocus()
-        acceptButton.pushRole([accept,qsTr("Ok"),"idle"])
-        cancelButton.pushRole([cancel,qsTr("Cancel"),"idle"])
+        acceptButton.pushRole([acceptaction,qsTr("Ok"),"idle"])
+        cancelButton.pushRole([cancelaction,qsTr("Cancel"),"idle"])
        // thirdButton.pushRole([cancel,qsTr("Cancel"),"idle"])
 
 

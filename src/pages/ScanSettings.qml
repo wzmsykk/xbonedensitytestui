@@ -9,7 +9,7 @@ import "../components"
 Grid {
     id: ts
     anchors.fill: parent
-    columns: 1
+    columns: 2
     rows: 3
     spacing: 6
     padding: 6

@@ -53,7 +53,7 @@ FuzzyPanel {
         //ps01.forceFocus()
         acceptButton.pushRole([accept,qsTr("Ok"),"idle"])
         cancelButton.pushRole([cancel,qsTr("Cancel"),"idle"])
-        thirdButton.pushRole([cancel,qsTr("Cancel"),"idle"])
+        //thirdButton.pushRole([cancel,qsTr("Cancel"),"idle"])
 
 
 
@@ -62,6 +62,6 @@ FuzzyPanel {
 
         acceptButton.popRole()
         cancelButton.popRole()
-        thirdButton.popRole()
+        //thirdButton.popRole()
     }
 }
